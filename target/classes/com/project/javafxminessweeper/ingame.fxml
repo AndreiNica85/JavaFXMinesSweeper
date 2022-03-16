@@ -3,38 +3,100 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.paint.Color?>
 
-
-<GridPane alignment="TOP_CENTER" prefHeight="192.0" prefWidth="116.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.javafxminessweeper.Controller">
+<GridPane alignment="TOP_CENTER" maxHeight="751.0" minHeight="600.0" prefHeight="751.0" prefWidth="955.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.javafxminessweeper.Controller">
    <columnConstraints>
-      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="116.0" minWidth="350.0" prefWidth="116.0" />
-      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="100.0" minWidth="0.0" prefWidth="0.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="100.0" />
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints maxHeight="40.0" minHeight="50.0" percentHeight="20.0" prefHeight="40.0" valignment="CENTER" vgrow="ALWAYS" />
-      <RowConstraints maxHeight="100.0" minHeight="50.0" percentHeight="20.0" prefHeight="100.0" valignment="CENTER" vgrow="ALWAYS" />
-      <RowConstraints maxHeight="0.0" minHeight="0.0" percentHeight="20.0" prefHeight="0.0" valignment="CENTER" vgrow="ALWAYS" />
+      <RowConstraints maxHeight="123.0" minHeight="123.0" percentHeight="12.0" prefHeight="123.0" valignment="BOTTOM" />
+      <RowConstraints maxHeight="700.0" minHeight="700.0" percentHeight="88.0" prefHeight="700.0" valignment="TOP" vgrow="ALWAYS" />
    </rowConstraints>
    <children>
-      <FlowPane fx:id="inGameFlowPane" alignment="TOP_CENTER" columnHalignment="CENTER" maxWidth="-Infinity" minWidth="240.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="35.0" prefWidth="252.0" rowValignment="TOP" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="TOP" GridPane.vgrow="NEVER" />
-      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="320.0" spacing="80.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
-         <children>
-            <Button mnemonicParsing="false" prefHeight="17.0" prefWidth="23.0" text="q" />
-            <Button fx:id="returnToMainMenuButton" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#returnToMainMenuClickActionButton" text="Main Menu" textAlignment="CENTER" textFill="#0e078d" />
-            <Button mnemonicParsing="false" onAction="#setDisplay" prefWidth="36.0" text="box" textAlignment="CENTER" />
-         </children>
+      <FlowPane fx:id="inGameFlowPane" alignment="CENTER" columnHalignment="CENTER" maxHeight="615.0" maxWidth="705.0" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" prefWidth="26.0" prefWrapLength="1000.0" rowValignment="TOP" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <effect>
+            <DropShadow height="111.86" radius="55.43" spread="0.27" width="111.86">
+               <color>
+                  <Color red="0.028752436861395836" green="0.10350877046585083" blue="0.7763158082962036" />
+               </color></DropShadow>
+         </effect>
          <GridPane.margin>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            <Insets bottom="10.0" />
          </GridPane.margin>
+      </FlowPane>
+      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="72.0" prefWidth="916.0" spacing="80.0" GridPane.valignment="CENTER">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
+         <children>
+            <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#setHardLevel" prefHeight="25.0" prefWidth="49.0" text="hard" textAlignment="CENTER" />
+            <ProgressIndicator minWidth="-Infinity" prefWidth="50.0" progress="0.0" />
+            <Button fx:id="returnToMainMenuButton" alignment="TOP_CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#returnToMainMenuClickActionButton" text="Main Menu" textAlignment="CENTER" textFill="#0e078d">
+               <effect>
+                  <DropShadow height="70.83" radius="45.9075" width="114.8">
+                     <color>
+                        <Color red="0.5789473652839661" green="0.8552631735801697" blue="0.9473684430122375" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Button>
+            <ImageView fx:id="inGameExitButton" fitHeight="31.0" fitWidth="59.0" nodeOrientation="INHERIT" onMouseClicked="#exitGameClickActionInGameButton" pickOnBounds="true" preserveRatio="true">
+               <effect>
+                  <InnerShadow choke="0.7">
+                     <color>
+                        <Color red="0.8399999737739563" green="0.07559999823570251" blue="0.07559999823570251" />
+                     </color>
+                     <input>
+                        <DropShadow height="51.78" radius="30.1525" spread="0.54" width="70.83">
+                           <color>
+                              <Color red="0.9868420958518982" green="0.013706140220165253" blue="0.013706140220165253" />
+                           </color>
+                        </DropShadow>
+                     </input>
+                  </InnerShadow>
+               </effect>
+               <image>
+                  <Image url="@close-button-img.jpg" />
+               </image>
+            </ImageView>
+            <Button fx:id="returnToMainMenuButton1" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="358.0" layoutY="34.0" mnemonicParsing="false" onAction="#returnToMainMenuClickActionButton" text="Main Menu" textAlignment="CENTER" textFill="#0e078d">
+               <effect>
+                  <DropShadow height="70.83" radius="45.9075" width="114.8">
+                     <color>
+                        <Color red="0.5789473652839661" green="0.8552631735801697" blue="0.9473684430122375" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#setEasyLevel" text="easy" />
+            <Button cancelButton="true" contentDisplay="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#setNormalLevel" prefHeight="25.0" prefWidth="60.0" text="normal" textAlignment="CENTER" textFill="#e30909">
+               <effect>
+                  <InnerShadow choke="0.47" height="18.07" radius="9.2675">
+                     <input>
+                        <Glow level="0.0" />
+                     </input>
+                  </InnerShadow>
+               </effect>
+            </Button>
+         </children>
       </HBox>
-      <ProgressIndicator progress="0.0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="TOP" GridPane.vgrow="NEVER" />
    </children>
+   <effect>
+      <InnerShadow choke="0.26" height="89.88" radius="43.34" width="85.48">
+         <color>
+            <Color red="0.2395833283662796" green="0.6405701637268066" blue="0.9078947305679321" />
+         </color>
+      </InnerShadow>
+   </effect>
 </GridPane>

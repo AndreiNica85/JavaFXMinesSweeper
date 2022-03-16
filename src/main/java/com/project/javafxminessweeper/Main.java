@@ -12,7 +12,7 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("minessweeper-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("MinesSweeper");
+        stage.setTitle("MinesSweeper v1.0");
         stage.setScene(scene);
         stage.show();
     }

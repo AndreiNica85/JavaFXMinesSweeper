@@ -6,18 +6,23 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
 public class Controller {
+
     @FXML
-    private Button startGameButton;
+    private Button exitGameButton, returnToMainMenuButton, startGameButton;
+
     @FXML
-    private Button exitGameButton;
+    private ChoiceBox<String> choiceBox = new ChoiceBox<String>();
+
     @FXML
-    private Button returnToMainMenuButton;
+    private ImageView inGameExitButton;
 
     private Stage stage;
 
@@ -25,46 +30,84 @@ public class Controller {
     private AbstractSquare node;
 
     @FXML
-    private Label welcomeText;
-    @FXML
     private FlowPane inGameFlowPane = new FlowPane();
 
-    protected EventHandler<? super MouseEvent> setvarza(){
-        welcomeText.setText("NOAPTE BUNA");
-        return null;
+    /** Methods for ingame.fxml */
+
+    protected void choiceBoxClick(){
+        choiceBox.getSelectionModel().select(1);
     }
 
-    @FXML
-    protected void squareClick(){
 
-    }
 
     @FXML
-    protected void setDisplay(){
-        for(int i = 0; i < 1; i++){
+    protected void setEasyLevel(){
+        for(int i = 0; i < 26*22; i++){
             node = new NumberSquare();
-            node.setText(" ");
             node.setMinSize(20,20);
             node.setMaxSize(28,28);
             node.setPrefSize(24,25);
             node.setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    node.setText(node.toString());
+                    node.setText(node.getText());
+                    node.setContentDisplay(ContentDisplay.TEXT_ONLY);
+//                    node.setVisible(false);
                 }
             });
-
             inGameFlowPane.getChildren().add(node);
-
         }
-
     }
 
     @FXML
-    protected void startGameClickActionButton() throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("ingame.fxml"));
-        stage = (Stage) startGameButton.getScene().getWindow();
-        stage.setScene(new Scene(root));
+    protected void setHardLevel(){
+        for(int i = 0; i < 28*24; i++){
+            node = new NumberSquare();
+            node.setMinSize(25,25);
+            node.setMaxSize(25,25);
+            node.setPrefSize(25,25);
+            node.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    node.setText(node.getText());
+                    node.setContentDisplay(ContentDisplay.TEXT_ONLY);
+//                    node.setVisible(false);
+                }
+            });
+            inGameFlowPane.getChildren().add(node);
+        }
+    }
+
+    @FXML
+    protected void setNormalLevel(){
+        for(int i = 0; i < 26*22; i++){
+            node = new NumberSquare();
+            node.setMinSize(20,20);
+            node.setMaxSize(28,28);
+            node.setPrefSize(24,25);
+            node.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    node.setText(node.getText());
+                    node.setContentDisplay(ContentDisplay.TEXT_ONLY);
+//                    node.setVisible(false);
+                }
+            });
+            inGameFlowPane.getChildren().add(node);
+        }
+    }
+
+    @FXML
+    protected EventHandler<? super MouseEvent> setVarza(){
+//        testButton.setContentDisplay(ContentDisplay.TEXT_ONLY);
+//        testButton.setBlendMode(BlendMode.SOFT_LIGHT);
+
+        return null;
+    }
+    @FXML
+    protected void exitGameClickActionInGameButton(){
+        stage = (Stage) inGameExitButton.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
@@ -74,10 +117,19 @@ public class Controller {
         stage.setScene(new Scene(root));
     }
 
+    /** Methods for minessweeper-view.fxml */
+
     @FXML
-    protected void exitGameClickActionButton() throws Exception{
+    protected void startGameClickActionButton() throws Exception{
+        Parent root = FXMLLoader.load(getClass().getResource("ingame.fxml"));
+        stage = (Stage) startGameButton.getScene().getWindow();
+        stage.setScene(new Scene(root));
+
+    }
+
+    @FXML
+    protected void exitGameClickActionButton(){
         stage = (Stage) exitGameButton.getScene().getWindow();
         stage.close();
     }
-
 }
