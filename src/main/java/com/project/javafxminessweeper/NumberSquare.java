@@ -1,14 +1,15 @@
 package com.project.javafxminessweeper;
 
 public class NumberSquare extends AbstractSquare{
-    static int test = 1;
+    private final int number;
 
-    public NumberSquare(){
-        if(test == 9){
-            test = 1;
-        }
-        this.setText("" + test++);
+    public NumberSquare(int row, int col, int number){
+        super(row,col);
+        this.number = number;
     }
 
-
+    public void revealedSquare(){
+        this.setText("" + number);
+        //set color of GridPane DropShadow efect and change square inner shadow effect
+    }
 }

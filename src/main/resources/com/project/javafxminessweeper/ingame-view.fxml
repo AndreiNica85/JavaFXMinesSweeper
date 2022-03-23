@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.paint.Color?>
+
+<GridPane alignment="TOP_CENTER" gridLinesVisible="true" maxHeight="751.0" maxWidth="850.0" minHeight="600.0" minWidth="850.0" prefHeight="751.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.javafxminessweeper.InGameController">
+   <columnConstraints>
+      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="123.0" minHeight="123.0" percentHeight="12.0" prefHeight="123.0" valignment="BOTTOM" />
+      <RowConstraints maxHeight="700.0" minHeight="700.0" percentHeight="88.0" prefHeight="700.0" valignment="CENTER" vgrow="ALWAYS" />
+   </rowConstraints>
+   <children>
+      <GridPane fx:id="inGameGridPane" alignment="CENTER" gridLinesVisible="true" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="25.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <effect>
+            <DropShadow height="29.79" radius="14.395" spread="0.07" width="29.79">
+               <color>
+                  <Color green="0.5513189435005188" blue="0.8799999952316284" />
+               </color>
+            </DropShadow>
+         </effect>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </GridPane>
+      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="72.0" prefWidth="916.0" spacing="80.0" GridPane.valignment="CENTER">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+         <children>
+            <ProgressBar prefHeight="18.0" prefWidth="53.0" progress="0.0" />
+            <ImageView fx:id="inGameMainMenuCloseButton" fitHeight="31.0" fitWidth="59.0" nodeOrientation="INHERIT" onMouseClicked="#backToMainMenuCloseButtonAction" pickOnBounds="true" preserveRatio="true">
+               <effect>
+                  <InnerShadow choke="0.7">
+                     <color>
+                        <Color red="0.8399999737739563" green="0.07559999823570251" blue="0.07559999823570251" />
+                     </color>
+                     <input>
+                        <DropShadow height="51.78" radius="30.1525" spread="0.54" width="70.83">
+                           <color>
+                              <Color red="0.9868420958518982" green="0.013706140220165253" blue="0.013706140220165253" />
+                           </color>
+                        </DropShadow>
+                     </input>
+                  </InnerShadow>
+               </effect>
+               <image>
+                  <Image url="@close-button-img.jpg" />
+               </image>
+            </ImageView>
+            <ProgressIndicator minWidth="-Infinity" prefWidth="50.0" progress="0.0" />
+         </children>
+      </HBox>
+   </children>
+   <effect>
+      <InnerShadow choke="0.26" height="89.88" radius="43.34" width="85.48">
+         <color>
+            <Color red="0.2395833283662796" green="0.6405701637268066" blue="0.9078947305679321" />
+         </color>
+      </InnerShadow>
+   </effect>
+</GridPane>
