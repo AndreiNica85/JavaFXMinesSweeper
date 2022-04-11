@@ -4,10 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -51,7 +48,7 @@ public class MenuController {
     public MenuController() throws Exception {
         this.difficulty = Difficulty.Normal;
         this.infoTextLabel = new Label();
-        this.controllerDisplay = new Display(16,18,40);
+        this.controllerDisplay = new Display(16,18,40,40);
         this.choiceBox = new ChoiceBox<>();
     }
 
@@ -60,9 +57,10 @@ public class MenuController {
     void initialize(){
         this.choiceBox.getItems().addAll(Easy.name(),Difficulty.Normal.name(), Hard.name());
         this.choiceBox.setValue("Difficulty: Normal");
-        this.infoTextLabel.setText("  Choose number of mines, number of columns (width between 1-28) \n" +
-                "    and number of rows (height between 1-24) for in game Display. \n" +
-                "Custom games don't count for the Top 5 players tables above. Have Fun!");
+        this.infoTextLabel.setText("""
+                  Choose number of mines, number of columns (width between 1-28)\s
+                    and number of rows (height between 1-24) for in game Display.\s
+                Custom games don't count for the Top 5 players tables above. Have Fun!""");
     }
 
     /* Set GridPane Display Nodes on Start Game */
@@ -71,11 +69,12 @@ public class MenuController {
         gridPane.setMaxWidth(25 * cols);
         for (int r = 0; r < rows; r++) {   //height
             for (int c = 0; c < cols; c++) {  //width
-                this.controllerDisplay.display[r][c] = new EmptySquare(r,c);
-                gridPane.add(this.controllerDisplay.display[r][c], c, r);
-                final int finalR = r;
-                final int finalC = c;
-                this.controllerDisplay.display[finalR][finalC].setOnMouseClicked(e -> this.controllerDisplay.initializeDisplayOnFirstClick(finalR, finalC));
+                ToggleButton tog = new InitialSquare(r,c);
+                int finalR = r;
+                int finalC = c;
+                tog.setOnMouseClicked(e -> this.controllerDisplay.initializeDisplayOnFirstClick(gridPane,finalR, finalC));
+                this.controllerDisplay.display[r][c] = tog;
+                gridPane.add(tog, c, r);
             }
         }
         return gridPane;
@@ -89,8 +88,10 @@ public class MenuController {
         Parent root = loader.load();
         Scene scene = new Scene(root);
         InGameController inGameController = loader.getController();
-        inGameController.inGameDisplay = startGameSetDisplay();
-        inGameController.inGameGridPane = setNodesOnInGameGridPaneDisplay(inGameController.inGameGridPane,this.controllerDisplay.display.length,this.controllerDisplay.display[0].length);
+        this.controllerDisplay = startGameSetDisplay();
+        int rows = this.controllerDisplay.display.length;
+        int cols = this.controllerDisplay.display[0].length;
+        inGameController.inGameGridPane = setNodesOnInGameGridPaneDisplay(inGameController.inGameGridPane, rows, cols);
         stage = (Stage) startGameButton.getScene().getWindow();
         stage.setScene(scene);
     }
@@ -114,11 +115,11 @@ public class MenuController {
     protected Display startGameSetDisplay() throws BoundaryException{
         this.difficulty = setAndGetDifficultyFromChoiceBox();
         if(difficulty == Easy) {
-            this.controllerDisplay = new Display(8, 10, 10);
+            this.controllerDisplay = new Display(8, 10, 10,10);
         }else if(difficulty == Normal){
-            this.controllerDisplay = new Display(16,18,40);
+            this.controllerDisplay = new Display(16,18,40,40);
         }else{
-            this.controllerDisplay = new Display(24,28,104);
+            this.controllerDisplay = new Display(24,28,104,104);
         }
         return this.controllerDisplay;
     }
@@ -131,12 +132,13 @@ public class MenuController {
         Parent root = loader.load();
         Scene scene = new Scene(root);
         InGameController inGameController = loader.getController();
-        int mines, cols, rows;
+        int mines, cols, rows, minesMaxLimit = 1;
         try{
             mines = Integer.parseInt(textFieldSetNumberOfMines.getText());
             cols = Integer.parseInt(textFieldSetCustomWidth.getText());
             rows = Integer.parseInt(textFieldSetCustomHeight.getText());
-            inGameController.inGameDisplay = new Display(rows,cols,mines);
+            minesMaxLimit = (int) Math.ceil(cols * rows * 0.15);
+            this.controllerDisplay = new Display(rows,cols,mines,minesMaxLimit);
         }catch (IllegalArgumentException e){
             this.infoTextLabel.setVisible(false);
             this.onlyDigitsLabel.setVisible(true);
@@ -144,13 +146,15 @@ public class MenuController {
         }catch (BoundaryException e){
             this.infoTextLabel.setVisible(false);
             if(e instanceof NumberOfMinesBoundaryException){
+                this.minesBoundaryLabel.setText("Number of Mines must be between 1 and " + minesMaxLimit);
                 this.minesBoundaryLabel.setVisible(true);
             }else if(e instanceof WidthAndHeightBoundaryException){
                 this.rowsAndColsBoundaryLabel.setVisible(true);
             }
             return;
         }
-        inGameController.inGameGridPane = setNodesOnInGameGridPaneDisplay(inGameController.inGameGridPane,inGameController.inGameDisplay.display.length,inGameController.inGameDisplay.display[0].length);
+        inGameController.inGameDisplay = this.controllerDisplay;
+        inGameController.inGameGridPane = setNodesOnInGameGridPaneDisplay(inGameController.inGameGridPane,this.controllerDisplay.display.length,this.controllerDisplay.display[0].length);
         stage = (Stage) startCustomGameButton.getScene().getWindow();
         stage.setScene(scene);
     }

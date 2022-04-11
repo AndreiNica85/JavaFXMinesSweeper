@@ -1,12 +1,12 @@
 package com.project.javafxminessweeper;
 
-import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
 
-public abstract class AbstractSquare extends Button {
-    int rowDigit;
-    int colDigit;
-    boolean revealedSquare;
-    boolean flaggedSquare;
+public abstract class AbstractSquare extends ToggleButton {
+    private int rowDigit;
+    private int colDigit;
+    private boolean revealedSquare;
+    private boolean flaggedSquare;
 
     public AbstractSquare(int row, int col){
         this();
@@ -21,30 +21,30 @@ public abstract class AbstractSquare extends Button {
     }
 
     public int getRowDigit() {
-        return rowDigit;
+        return this.rowDigit;
     }
 
     public int getColDigit() {
-        return colDigit;
+        return this.colDigit;
     }
 
-    public void revealedSquareDisplayOnClick(){
+    public void revealedAndDiscoveredSquareDisplayOnClick(){
         if(isRevealedSquare()){
-            revealedSquare();
+            this.revealedSquare();
         }
     }
 
     protected abstract void revealedSquare();
 
-    public boolean isFlaggedSquare(){
+    public boolean checkIfFlaggedSquare(){
         return this.flaggedSquare;
     }
 
-    public void setFlaggedSquare(){
-        this.flaggedSquare = true;
-        this.setText("" + (char)(9760));
+    public void setFlaggedSquare(boolean flag){
+        this.flaggedSquare = flag;
     }
 
+    /* Reveal square */
     public boolean isRevealedSquare(){
         return this.revealedSquare;
     }

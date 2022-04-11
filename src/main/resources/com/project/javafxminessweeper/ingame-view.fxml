@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
@@ -45,6 +47,8 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
          <children>
+            <ToggleButton fx:id="toggleButton" mnemonicParsing="false" onAction="#clickToggleButton" text="ToggleButton" />
+            <Button fx:id="testButton" mnemonicParsing="false" onAction="#clickTestButton" text="Button" />
             <ProgressBar prefHeight="18.0" prefWidth="53.0" progress="0.0" />
             <ImageView fx:id="inGameMainMenuCloseButton" fitHeight="31.0" fitWidth="59.0" nodeOrientation="INHERIT" onMouseClicked="#backToMainMenuCloseButtonAction" pickOnBounds="true" preserveRatio="true">
                <effect>
