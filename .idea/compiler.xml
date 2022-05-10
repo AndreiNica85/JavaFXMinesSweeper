@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="JavaFXMinesSweeper" target="17" />
+      <module name="JavaFXMinesSweeper" target="16" />
     </bytecodeTargetLevel>
   </component>
 </project>

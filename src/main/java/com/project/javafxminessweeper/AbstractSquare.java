@@ -6,7 +6,7 @@ public abstract class AbstractSquare extends ToggleButton {
     private int rowDigit;
     private int colDigit;
     private boolean revealedSquare;
-    private boolean flaggedSquare;
+    static int numberOfRevealedSquares;
 
     public AbstractSquare(int row, int col){
         this();
@@ -30,19 +30,19 @@ public abstract class AbstractSquare extends ToggleButton {
 
     public void revealedAndDiscoveredSquareDisplayOnClick(){
         if(isRevealedSquare()){
+            if(!(this instanceof MineSquare)){
+                numberOfRevealedSquares++;
+            }
             this.revealedSquare();
+            this.setSelected(true);
+            if(!(this instanceof NumberSquare)){
+                this.setDisable(true);
+            }
+            this.setOpacity(1.0);
         }
     }
 
     protected abstract void revealedSquare();
-
-    public boolean checkIfFlaggedSquare(){
-        return this.flaggedSquare;
-    }
-
-    public void setFlaggedSquare(boolean flag){
-        this.flaggedSquare = flag;
-    }
 
     /* Reveal square */
     public boolean isRevealedSquare(){
