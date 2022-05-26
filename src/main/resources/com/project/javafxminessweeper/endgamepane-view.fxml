@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.Color?>
 
-<Pane fx:id="endGamePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="379.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.javafxminessweeper.EndGameDialogPaneController">
+<Pane fx:id="endGamePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="379.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.javafxminessweeper.EndGameDialogPaneController">
    <children>
       <Button fx:id="backToMenuButton" layoutX="172.0" layoutY="323.0" mnemonicParsing="false" text="Back to Main Menu">
          <effect>
@@ -30,7 +30,14 @@
             </DropShadow>
          </effect>
       </Button>
-      <TreeView layoutX="61.0" layoutY="70.0" prefHeight="239.0" prefWidth="337.0" />
+      <TreeView layoutX="61.0" layoutY="70.0" prefHeight="239.0" prefWidth="337.0">
+         <effect>
+            <InnerShadow choke="0.59">
+               <color>
+                  <Color red="0.46271929144859314" green="0.9473684430122375" blue="0.2017543911933899" />
+               </color>
+            </InnerShadow>
+         </effect></TreeView>
       <Button fx:id="minesSweptButton" layoutX="307.0" layoutY="90.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="68.0" text="100" textAlignment="CENTER">
          <effect>
             <DropShadow>
@@ -76,10 +83,13 @@
       <Separator layoutX="94.0" layoutY="230.0" prefHeight="0.0" prefWidth="274.0" />
    </children>
    <effect>
-      <InnerShadow choke="0.63" height="64.24" radius="31.802499999999995" width="64.97">
+      <InnerShadow choke="0.57" height="91.17" radius="42.2" width="79.63">
          <color>
-            <Color red="0.4974658787250519" green="0.8421052694320679" blue="0.046783626079559326" />
+            <Color red="0.07066886126995087" green="0.1184210553765297" blue="0.008223684504628181" />
          </color>
+         <input>
+            <DropShadow />
+         </input>
       </InnerShadow>
    </effect>
 </Pane>

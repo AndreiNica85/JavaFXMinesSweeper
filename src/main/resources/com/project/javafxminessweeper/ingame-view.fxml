@@ -2,7 +2,10 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
@@ -11,43 +14,111 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-
-<GridPane alignment="TOP_CENTER" gridLinesVisible="true" maxHeight="751.0" maxWidth="850.0" minHeight="600.0" minWidth="850.0" prefHeight="751.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.javafxminessweeper.InGameController">
+<GridPane alignment="TOP_CENTER" gridLinesVisible="true" style="-fx-background-color: LIGHTGRAY;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.javafxminessweeper.InGameController">
    <columnConstraints>
       <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="100.0" />
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints maxHeight="123.0" minHeight="123.0" percentHeight="12.0" prefHeight="123.0" valignment="BOTTOM" />
-      <RowConstraints maxHeight="700.0" minHeight="700.0" percentHeight="88.0" prefHeight="700.0" valignment="CENTER" vgrow="ALWAYS" />
+      <RowConstraints percentHeight="12.0" />
+      <RowConstraints percentHeight="88.0" />
    </rowConstraints>
    <children>
-      <GridPane fx:id="inGameGridPane" alignment="CENTER" gridLinesVisible="true" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="25.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+      <GridPane fx:id="inGameGridPane" alignment="CENTER" gridLinesVisible="true" maxHeight="725.0" nodeOrientation="LEFT_TO_RIGHT" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints minWidth="25.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="25.0" />
         </rowConstraints>
          <effect>
-            <DropShadow height="50.31" radius="24.655" spread="0.15" width="50.31">
+            <DropShadow height="114.42" radius="56.8" spread="0.48" width="114.78">
                <color>
-                  <Color green="0.5513189435005188" blue="0.8799999952316284" />
+                  <Color red="1.0" />
                </color>
             </DropShadow>
          </effect>
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
+         <GridPane.margin>
+            <Insets bottom="30.0" left="20.0" right="20.0" top="25.0" />
+         </GridPane.margin>
       </GridPane>
-      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="72.0" prefWidth="916.0" spacing="80.0" GridPane.valignment="CENTER">
+      <HBox alignment="CENTER" spacing="35.0">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
          <children>
-            <Button fx:id="minesButton" focusTraversable="false" mnemonicParsing="false" mouseTransparent="true" prefHeight="35.0" prefWidth="52.0" text="100" textAlignment="CENTER" textFill="#0a35f5">
+            <Separator maxHeight="50.0" orientation="VERTICAL">
+               <HBox.margin>
+                  <Insets right="-15.0" />
+               </HBox.margin>
+            </Separator>
+            <Button fx:id="mouseClicksButton" focusTraversable="false" maxWidth="62.0" minWidth="60.0" mnemonicParsing="false" text="0" textAlignment="CENTER" textFill="#4400ff">
+               <effect>
+                  <DropShadow height="52.61" radius="27.307499999999997" spread="0.29" width="58.62">
+                     <color>
+                        <Color red="0.17640000581741333" green="0.5133600234985352" blue="0.6299999952316284" />
+                     </color>
+                  </DropShadow>
+               </effect>
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="-10.0" right="-20.0" />
+               </HBox.margin>
+            </Button>
+            <Separator maxHeight="50.0" orientation="VERTICAL">
+               <HBox.margin>
+                  <Insets right="-30.0" />
+               </HBox.margin>
+            </Separator>
+            <ProgressIndicator fx:id="progressIndicator11" progress="0.0" style="-fx-accent: RED;">
+               <HBox.margin>
+                  <Insets right="-25.0" />
+               </HBox.margin>
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color red="1.0" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </ProgressIndicator>
+            <ProgressBar fx:id="progressBar" prefHeight="18.0" prefWidth="117.0">
+               <effect>
+                  <InnerShadow />
+               </effect>
+               <HBox.margin>
+                  <Insets left="-3.0" />
+               </HBox.margin>
+            </ProgressBar>
+            <ProgressIndicator fx:id="progressIndicator22" progress="0.0" style="-fx-accent: GREEN;">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets left="-25.0" />
+               </HBox.margin>
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color green="0.8799999952316284" blue="0.13409523665905" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </ProgressIndicator>
+            <Separator maxHeight="50.0" orientation="VERTICAL">
+               <HBox.margin>
+                  <Insets left="-25.0" />
+               </HBox.margin>
+            </Separator>
+            <Button fx:id="minesButton" focusTraversable="false" maxWidth="50.0" minWidth="50.0" mnemonicParsing="false" text="100" textAlignment="JUSTIFY" textFill="#1e0cf5">
                <effect>
                   <DropShadow height="34.56" radius="22.795" spread="0.29" width="58.62">
                      <color>
@@ -58,23 +129,11 @@
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
             </Button>
-            <ProgressBar fx:id="progressBar" prefHeight="18.0" prefWidth="137.0">
-               <effect>
-                  <InnerShadow choke="0.64" height="8.79" radius="6.095" width="17.59">
-                     <color>
-                        <Color red="0.01315789483487606" green="0.08377192914485931" blue="0.31578946113586426" />
-                     </color>
-                     <input>
-                        <DropShadow height="52.332499999999996" radius="25.773125" spread="0.62" width="52.76">
-                           <color>
-                              <Color red="0.04288499057292938" green="0.5756984949111938" blue="0.8421052694320679" />
-                           </color>
-                        </DropShadow>
-                     </input>
-                  </InnerShadow>
-               </effect>
-            </ProgressBar>
+            <Separator maxHeight="50.0" orientation="VERTICAL" />
             <ImageView fx:id="inGameMainMenuCloseButton" fitHeight="31.0" fitWidth="59.0" nodeOrientation="INHERIT" onMouseClicked="#backToMainMenuCloseButtonAction" pickOnBounds="true" preserveRatio="true">
                <effect>
                   <InnerShadow choke="0.7">
@@ -93,35 +152,129 @@
                <image>
                   <Image url="@close-button-img.jpg" />
                </image>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
             </ImageView>
-            <Button fx:id="timerButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="51.0" prefWidth="137.0" text="00:00:00" textAlignment="JUSTIFY" textFill="RED">
-               <font>
-                  <Font size="24.0" />
-               </font>
-               <effect>
-                  <DropShadow height="56.54" radius="26.2125" spread="0.07" width="50.31">
-                     <color>
-                        <Color red="0.8799999952316284" />
-                     </color>
-                     <input>
-                        <InnerShadow />
-                     </input>
-                  </DropShadow>
-               </effect>
-            </Button>
-            <Button fx:id="mouseClicksButton" focusTraversable="false" mnemonicParsing="false" mouseTransparent="true" prefHeight="35.0" prefWidth="52.0" text="0" textAlignment="CENTER" textFill="RED">
-               <effect>
-                  <DropShadow height="46.59" radius="25.802500000000002" spread="0.29" width="58.62">
-                     <color>
-                        <Color red="0.6399999856948853" green="0.27363452315330505" blue="0.1728000044822693" />
-                     </color>
-                  </DropShadow>
-               </effect>
+            <Separator maxHeight="50.0" orientation="VERTICAL" />
+            <Button fx:id="timerButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" text="00:00" textAlignment="JUSTIFY" textFill="#241ab5">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
+               <effect>
+                  <DropShadow height="51.87" radius="25.045" spread="0.07" width="50.31">
+                     <color>
+                        <Color green="0.7622857093811035" blue="0.8700000047683716" />
+                     </color>
+                     <input>
+                        <InnerShadow>
+                           <color>
+                              <Color red="0.3947368562221527" green="0.5394737124443054" blue="0.5921052694320679" />
+                           </color>
+                        </InnerShadow>
+                     </input>
+                  </DropShadow>
+               </effect>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
             </Button>
+            <Button fx:id="secondsInGameButton" alignment="CENTER" minWidth="29.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="00" textAlignment="CENTER" textFill="#ee0202">
+               <HBox.margin>
+                  <Insets left="-35.0" />
+               </HBox.margin>
+               <effect>
+                  <DropShadow height="25.4" radius="11.8325" spread="0.14" width="23.93">
+                     <color>
+                        <Color red="0.8026315569877625" green="0.08546540141105652" blue="0.08546540141105652" />
+                     </color>
+                  </DropShadow>
+               </effect>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Separator maxHeight="50.0" orientation="VERTICAL">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Separator>
+            <VBox fx:id="lastClickVBox" alignment="CENTER">
+               <children>
+                  <Label text="You clicked on:" textAlignment="JUSTIFY">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin></Label>
+                  <Button fx:id="mouseClickedButton" minWidth="25.0" mnemonicParsing="false" text="-" textAlignment="CENTER">
+                     <effect>
+                        <DropShadow height="56.17" radius="26.8525" spread="0.3" width="53.24" />
+                     </effect>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets left="-20.0" right="-20.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox fx:id="lastClickCoordsVBox" alignment="CENTER">
+               <children>
+                  <HBox>
+                     <children>
+                        <Label text="Column Number:" />
+                        <Button fx:id="columnNumberButton" maxWidth="28.0" minWidth="28.0" mnemonicParsing="false" text="0" textAlignment="JUSTIFY">
+                           <font>
+                              <Font name="System Bold" size="10.0" />
+                           </font>
+                           <effect>
+                              <InnerShadow>
+                                 <color>
+                                    <Color red="0.8289473652839661" green="0.4375" blue="0.4375" />
+                                 </color>
+                              </InnerShadow>
+                           </effect>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label text="Row Number:">
+                           <HBox.margin>
+                              <Insets left="16.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Button fx:id="rowNumberButton" maxWidth="28.0" minWidth="28.0" mnemonicParsing="false" text="0" textAlignment="JUSTIFY">
+                           <font>
+                              <Font name="System Bold" size="10.0" />
+                           </font>
+                           <effect>
+                              <InnerShadow>
+                                 <color>
+                                    <Color red="0.19998781383037567" green="0.8815789222717285" blue="0.8588592410087585" />
+                                 </color>
+                              </InnerShadow>
+                           </effect>
+                           <HBox.margin>
+                              <Insets left="7.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <Separator maxHeight="50.0" orientation="VERTICAL">
+               <HBox.margin>
+                  <Insets left="-20.0" right="2.0" />
+               </HBox.margin>
+            </Separator>
          </children>
+         <GridPane.margin>
+            <Insets bottom="25.0" top="10.0" />
+         </GridPane.margin>
       </HBox>
    </children>
    <effect>

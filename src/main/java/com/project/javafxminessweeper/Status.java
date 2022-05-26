@@ -76,4 +76,5 @@ public enum Status {
     public boolean isPlaying() {
         return isPlaying;
     }
+
 }

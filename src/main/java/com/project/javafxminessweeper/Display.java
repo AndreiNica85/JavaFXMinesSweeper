@@ -9,9 +9,8 @@ public class Display {
     final int mines;
     ToggleButton[][] toggleButtonsSquares2DArray;
 
-    /* Constructor */
     public Display(int rows, int columns, int numberOfMines, int numberOfMinesMaxLimit) throws BoundaryException{
-        if((rows < 1 || rows > 24) || (columns < 1 || columns > 28)){
+        if((rows < 2 || rows > 24) || (columns < 2 || columns > 28)){
             throw new WidthAndHeightBoundaryException();
         }else if(numberOfMines < 1 || numberOfMines > numberOfMinesMaxLimit){
             throw new NumberOfMinesBoundaryException();
@@ -24,6 +23,6 @@ public class Display {
 
     /* Getters and setters */
     public int getMines() {
-        return mines;
+        return this.mines;
     }
 }

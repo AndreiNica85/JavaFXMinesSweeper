@@ -19,4 +19,5 @@ public class PlayerComparator implements Comparator<Player> {
             return p1.getBestNumberOfMouseClicks() - p2.getBestNumberOfMouseClicks();
         }
     }
+
 }

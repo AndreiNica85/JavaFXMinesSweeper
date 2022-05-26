@@ -11,4 +11,5 @@ public class EmptySquare extends AbstractSquare{
     public void revealedSquare(){
         this.setText(" ");
     }
+
 }

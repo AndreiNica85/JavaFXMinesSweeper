@@ -125,4 +125,5 @@ public class Player implements Serializable{
     public void setBestPercentageRevealedMap(double bestPercentageRevealedMap) {
         this.bestPercentageRevealedMap = bestPercentageRevealedMap;
     }
+
 }

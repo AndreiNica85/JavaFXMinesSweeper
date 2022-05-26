@@ -19,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -87,6 +88,9 @@ public class MenuController implements Initializable{
     private TableColumn<Player, Integer> bestTimeInSecondsColumnEasy;
     @FXML
     private TableColumn<Player, Double> bestPercentageRevealedMapColumnEasy;
+
+    @FXML
+    private Button minesSweeperButton;
     @FXML
     private Button startCustomGameButton;
     @FXML
@@ -107,6 +111,8 @@ public class MenuController implements Initializable{
     private Label infoTextLabel;
     @FXML
     private Label mainLabel;
+    @FXML
+    private Label MSweeperLabel;
 
     @FXML
     private ChoiceBox<String> choiceBox;
@@ -125,6 +131,47 @@ public class MenuController implements Initializable{
     @FXML
     private Accordion menuAccordion;
 
+    private final Tooltip positionNumberTooltip;
+    private final Tooltip nameTooltip;
+    private final Tooltip totalGamesTooltip;
+    private final Tooltip finishedGamesTooltip;
+    private final Tooltip finishedGamesPercentageTooltip;
+    private final Tooltip bestTimeTooltip;
+    private final Tooltip bestRevealedMapPercentageTooltip;
+    private final Tooltip bestMinesSweptNumberTooltip;
+    private final Tooltip bestMouseClicksNumberTooltip;
+    private final Tooltip customGameColumnsNumberTool;
+    private final Tooltip customGameRowsNumberTool;
+    private final Tooltip customGameNumberOfMinesTool;
+
+    private final Label posLabelToolEasy;
+    private final Label posLabelToolNormal;
+    private final Label posLabelToolHard;
+    private final Label nameLabelToolEasy;
+    private final Label nameLabelToolNormal;
+    private final Label nameLabelToolHard;
+    private final Label totalGamesLabelToolEasy;
+    private final Label totalGamesLabelToolNormal;
+    private final Label totalGamesLabelToolHard;
+    private final Label finishedGamesLabelToolEasy;
+    private final Label finishedGamesLabelToolNormal;
+    private final Label finishedGamesLabelToolHard;
+    private final Label finishedGamesPercentageLabelToolEasy;
+    private final Label finishedGamesPercentageLabelToolNormal;
+    private final Label finishedGamesPercentageLabelToolHard;
+    private final Label bestTimeLabelToolEasy;
+    private final Label bestTimeLabelToolNormal;
+    private final Label bestTimeLabelToolHard;
+    private final Label bestRevealedMPercentageLabelToolEasy;
+    private final Label bestRevealedMPercentageLabelToolNormal;
+    private final Label bestRevealedMPercentageLabelToolHard;
+    private final Label bestNumberMinesSweptLabelToolEasy;
+    private final Label bestNumberMinesSweptLabelToolNormal;
+    private final Label bestNumberMinesSweptLabelToolHard;
+    private final Label bestNumberMouseClicksLabelToolEasy;
+    private final Label bestNumberMouseClicksLabelToolNormal;
+    private final Label bestNumberMouseClicksLabelToolHard;
+
     private String mainLabelText;
     private Display controllerDisplay;
     private Stage stage;
@@ -135,17 +182,120 @@ public class MenuController implements Initializable{
 
     /** Constructor - Called before initialize() method */
     public MenuController() throws Exception {
+        this.customGameColumnsNumberTool = new Tooltip("Number of Columns - Must be between 2 and 28");
+        this.customGameRowsNumberTool = new Tooltip("Number of Rows - Must be between 2 and 24");
+        this.customGameNumberOfMinesTool = new Tooltip("Number of Mines");
+
+        this.positionNumberTooltip = new Tooltip("Position");
+        this.nameTooltip = new Tooltip("Player Name");
+        this.totalGamesTooltip = new Tooltip("Total Games");
+        this.finishedGamesTooltip = new Tooltip("Games Finished");
+        this.finishedGamesPercentageTooltip = new Tooltip("Games Finished Percentage %");
+        this.bestTimeTooltip = new Tooltip("Best Time");
+        this.bestRevealedMapPercentageTooltip = new Tooltip("Best Revealed Map Percentage %");
+        this.bestMinesSweptNumberTooltip = new Tooltip("Best Number of Mines Discovered");
+        this.bestMouseClicksNumberTooltip = new Tooltip("Best Number of Mouse Clicks");
+
+        this.posLabelToolEasy  = new Label("#");
+        this.posLabelToolNormal = new Label("#");
+        this.posLabelToolHard = new Label("#");
+        this.nameLabelToolEasy = new Label("Name");
+        this.nameLabelToolNormal = new Label("Name");
+        this.nameLabelToolHard = new Label("Name");
+        this.totalGamesLabelToolEasy = new Label("TG");
+        this.totalGamesLabelToolNormal = new Label("TG");
+        this.totalGamesLabelToolHard = new Label("TG");
+        this.finishedGamesLabelToolEasy = new Label("GF");
+        this.finishedGamesLabelToolNormal = new Label("GF");
+        this.finishedGamesLabelToolHard = new Label("GF");
+        this.finishedGamesPercentageLabelToolEasy = new Label("GF %");
+        this.finishedGamesPercentageLabelToolNormal = new Label("GF %");
+        this.finishedGamesPercentageLabelToolHard = new Label("GF %");
+        this.bestTimeLabelToolEasy = new Label("BT");
+        this.bestTimeLabelToolNormal = new Label("BT");
+        this.bestTimeLabelToolHard = new Label("BT");
+        this.bestRevealedMPercentageLabelToolEasy = new Label("BRM %");
+        this.bestRevealedMPercentageLabelToolNormal = new Label("BRM %");
+        this.bestRevealedMPercentageLabelToolHard = new Label("BRM %");
+        this.bestNumberMinesSweptLabelToolEasy = new Label("BMS");
+        this.bestNumberMinesSweptLabelToolNormal = new Label("BMS");
+        this.bestNumberMinesSweptLabelToolHard = new Label("BMS");
+        this.bestNumberMouseClicksLabelToolEasy = new Label("BMC");
+        this.bestNumberMouseClicksLabelToolNormal = new Label("BMC");
+        this.bestNumberMouseClicksLabelToolHard = new Label("BMC");
+
+        this.posLabelToolEasy.setTooltip(this.positionNumberTooltip);
+        this.posLabelToolNormal.setTooltip(this.positionNumberTooltip);
+        this.posLabelToolHard.setTooltip(this.positionNumberTooltip);
+        this.nameLabelToolEasy.setTooltip(this.nameTooltip);
+        this.nameLabelToolNormal.setTooltip(this.nameTooltip);
+        this.nameLabelToolHard.setTooltip(this.nameTooltip);
+        this.totalGamesLabelToolEasy.setTooltip(this.totalGamesTooltip);
+        this.totalGamesLabelToolNormal.setTooltip(this.totalGamesTooltip);
+        this.totalGamesLabelToolHard.setTooltip(this.totalGamesTooltip);
+        this.finishedGamesLabelToolEasy.setTooltip(this.finishedGamesTooltip);
+        this.finishedGamesLabelToolNormal.setTooltip(this.finishedGamesTooltip);
+        this.finishedGamesLabelToolHard.setTooltip(this.finishedGamesTooltip);
+        this.finishedGamesPercentageLabelToolEasy.setTooltip(this.finishedGamesPercentageTooltip);
+        this.finishedGamesPercentageLabelToolNormal.setTooltip(this.finishedGamesPercentageTooltip);
+        this.finishedGamesPercentageLabelToolHard.setTooltip(this.finishedGamesPercentageTooltip);
+        this.bestTimeLabelToolEasy.setTooltip(this.bestTimeTooltip);
+        this.bestTimeLabelToolNormal.setTooltip(this.bestTimeTooltip);
+        this.bestTimeLabelToolHard.setTooltip(this.bestTimeTooltip);
+        this.bestRevealedMPercentageLabelToolEasy.setTooltip(this.bestRevealedMapPercentageTooltip);
+        this.bestRevealedMPercentageLabelToolNormal.setTooltip(this.bestRevealedMapPercentageTooltip);
+        this.bestRevealedMPercentageLabelToolHard.setTooltip(this.bestRevealedMapPercentageTooltip);
+        this.bestNumberMinesSweptLabelToolEasy.setTooltip(this.bestMinesSweptNumberTooltip);
+        this.bestNumberMinesSweptLabelToolNormal.setTooltip(this.bestMinesSweptNumberTooltip);
+        this.bestNumberMinesSweptLabelToolHard.setTooltip(this.bestMinesSweptNumberTooltip);
+        this.bestNumberMouseClicksLabelToolEasy.setTooltip(this.bestMouseClicksNumberTooltip);
+        this.bestNumberMouseClicksLabelToolNormal.setTooltip(this.bestMouseClicksNumberTooltip);
+        this.bestNumberMouseClicksLabelToolHard.setTooltip(this.bestMouseClicksNumberTooltip);
+
+        this.infoTextLabel = new Label();
         this.best10PlayersEasyList = new ArrayList<>();
         this.best10PlayersNormalList = new ArrayList<>();
         this.best10PlayersHardList = new ArrayList<>();
         this.difficulty = NORMAL;
-        this.infoTextLabel = new Label();
         this.controllerDisplay = new Display(16,18,40,40);
         this.choiceBox = new ChoiceBox<>();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.playerName.setTooltip(this.nameTooltip);
+        this.textFieldSetCustomHeight.setTooltip(this.customGameRowsNumberTool);
+        this.textFieldSetCustomWidth.setTooltip(this.customGameColumnsNumberTool);
+        this.textFieldSetNumberOfMines.setTooltip(this.customGameNumberOfMinesTool);
+
+        this.positionNumberColumnTableEasy.setGraphic(this.posLabelToolEasy);
+        this.positionNumberColumnTableNormal.setGraphic(this.posLabelToolNormal);
+        this.positionNumberColumnTableHard.setGraphic(this.posLabelToolHard);
+        this.nameColumnTableEasy.setGraphic(this.nameLabelToolEasy);
+        this.nameColumnTableNormal.setGraphic(this.nameLabelToolNormal);
+        this.nameColumnTableHard.setGraphic(this.nameLabelToolHard);
+        this.totalGamesPlayedColumnEasy.setGraphic(this.totalGamesLabelToolEasy);
+        this.totalGamesPlayedColumnNormal.setGraphic(this.totalGamesLabelToolNormal);
+        this.totalGamesPlayedColumnHard.setGraphic(this.totalGamesLabelToolHard);
+        this.finishedGamesColumnEasy.setGraphic(this.finishedGamesLabelToolEasy);
+        this.finishedGamesColumnNormal.setGraphic(this.finishedGamesLabelToolNormal);
+        this.finishedGamesColumnHard.setGraphic(this.finishedGamesLabelToolHard);
+        this.finishedGamesPercentageColumnEasy.setGraphic(this.finishedGamesPercentageLabelToolEasy);
+        this.finishedGamesPercentageColumnNormal.setGraphic(this.finishedGamesPercentageLabelToolNormal);
+        this.finishedGamesPercentageColumnHard.setGraphic(this.finishedGamesPercentageLabelToolHard);
+        this.bestTimeInSecondsColumnEasy.setGraphic(this.bestTimeLabelToolEasy);
+        this.bestTimeInSecondsColumnNormal.setGraphic(this.bestTimeLabelToolNormal);
+        this.bestTimeInSecondsColumnHard.setGraphic(this.bestTimeLabelToolHard);
+        this.bestPercentageRevealedMapColumnEasy.setGraphic(this.bestRevealedMPercentageLabelToolEasy);
+        this.bestPercentageRevealedMapColumnNormal.setGraphic(this.bestRevealedMPercentageLabelToolNormal);
+        this.bestPercentageRevealedMapColumnHard.setGraphic(this.bestRevealedMPercentageLabelToolHard);
+        this.bestNumberOfMinesSweptColumnEasy.setGraphic(this.bestNumberMinesSweptLabelToolEasy);
+        this.bestNumberOfMinesSweptColumnNormal.setGraphic(this.bestNumberMinesSweptLabelToolNormal);
+        this.bestNumberOfMinesSweptColumnHard.setGraphic(this.bestNumberMinesSweptLabelToolHard);
+        this.bestNumberOfMouseClicksColumnEasy.setGraphic(this.bestNumberMouseClicksLabelToolEasy);
+        this.bestNumberOfMouseClicksColumnNormal.setGraphic(this.bestNumberMouseClicksLabelToolNormal);
+        this.bestNumberOfMouseClicksColumnHard.setGraphic(this.bestNumberMouseClicksLabelToolHard);
+
         this.mainLabelText = this.mainLabel.getText();
         this.menuAccordion.setExpandedPane(this.titledPaneNormal);
         this.titledPaneNormal.setExpanded(true);
@@ -179,8 +329,8 @@ public class MenuController implements Initializable{
             }
         });
         this.infoTextLabel.setText(
-                "   Choose number of mines, number of columns (width between 1-28)\n" +
-                        "      and number of rows (height between 1-24) for in game Display.\n" +
+                "   Choose number of mines, number of columns (width between 2-28)\n" +
+                        "      and number of rows (height between 2-24) for in game Display.\n" +
                         "Custom games don't count for the Top 10 players tables above. Have Fun!");
 
         /* Top 10 Tabel Settings */
@@ -216,28 +366,28 @@ public class MenuController implements Initializable{
     }
 
     private void readFromFileAndPopulateTopTenPlayers(){
-        try(ObjectInputStream objectInputStreamEasy = new ObjectInputStream(new BufferedInputStream(new FileInputStream("src/main/resources/com/project/javafxminessweeper/bestPlayersEasy.dat")))){
+        Path path = Main.topPath;
+
+        Path fileTopEasy = Path.of(path.toString(),"bestPlayersEasy.dat");
+        Path fileTopNormal = Path.of(path.toString(),"bestPlayersNormal.dat");
+        Path fileTopHard = Path.of(path.toString(),"bestPlayersHard.dat");
+
+        try(ObjectInputStream objectInputStreamEasy = new ObjectInputStream(new BufferedInputStream(new FileInputStream(fileTopEasy.toString())))){
             this.best10PlayersEasyList = (List<Player>) objectInputStreamEasy.readObject();
-        } catch (ClassNotFoundException e) {
-            System.out.println("EOF and Class not found exc from readFromFile " + e.getMessage());
-        } catch (IOException f){
-            System.out.println("IO  exc from readFromFile " + f.getMessage());
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
         }
 
-        try(ObjectInputStream objectInputStreamNormal = new ObjectInputStream(new BufferedInputStream(new FileInputStream("src/main/resources/com/project/javafxminessweeper/bestPlayersNormal.dat")))){
+        try(ObjectInputStream objectInputStreamNormal = new ObjectInputStream(new BufferedInputStream(new FileInputStream(fileTopNormal.toString())))){
             this.best10PlayersNormalList = (List<Player>) objectInputStreamNormal.readObject();
-        } catch (ClassNotFoundException e) {
-            System.out.println("EOF and Class not found exc from readFromFile " + e.getMessage());
-        } catch (IOException f){
-            System.out.println("IO  exc from readFromFile " + f.getMessage());
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
         }
 
-        try(ObjectInputStream objectInputStreamHard = new ObjectInputStream(new BufferedInputStream(new FileInputStream("src/main/resources/com/project/javafxminessweeper/bestPlayersHard.dat")))){
+        try(ObjectInputStream objectInputStreamHard = new ObjectInputStream(new BufferedInputStream(new FileInputStream(fileTopHard.toString())))){
             this.best10PlayersHardList = (List<Player>) objectInputStreamHard.readObject();
-        } catch (ClassNotFoundException e) {
-            System.out.println("EOF and Class not found exc from readFromFile " + e.getMessage());
-        } catch (IOException f){
-            System.out.println("IO  exc from readFromFile " + f.getMessage());
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
         }
 
         List<Player> easyList = new ArrayList<>();
@@ -372,7 +522,7 @@ public class MenuController implements Initializable{
                 this.mainLabel.setText("Number of Mines must be min 1 and max " + minesMaxLimit);
                 this.mainLabel.setTextFill(Color.RED);
             }else if(e instanceof WidthAndHeightBoundaryException){
-                this.mainLabel.setText("Min number is 1! Max width is 28 and Max height is 24.");
+                this.mainLabel.setText("Min number is 2 for Width and Height! Max Width is 28 and Max Height is 24.");
                 this.mainLabel.setTextFill(Color.RED);
             }
             return;
@@ -388,6 +538,7 @@ public class MenuController implements Initializable{
     protected void colorGrayForCustomGameAnchorPaneMethod(){
         this.anchorPaneStartCustomGame.setStyle("-fx-background-color: LIGHTGRAY;");
         this.startCustomGameButton.setTextFill(Color.BLACK);
+        this.MSweeperLabel.setTextFill(Color.BLACK);
     }
 
     @FXML
@@ -398,6 +549,7 @@ public class MenuController implements Initializable{
     @FXML
     protected void colorTransparentForRatedGameAnchorPaneMethod(){
         this.anchorPaneStartGame.setStyle("-fx-background-color: null;");
+        this.minesSweeperButton.setTextFill(this.startGameButton.getTextFill());
     }
 
     @FXML
@@ -406,5 +558,6 @@ public class MenuController implements Initializable{
         this.startCustomGameButton.setTextFill(Color.PURPLE);
         this.mainLabel.setText(this.mainLabelText);
         this.mainLabel.setTextFill(Color.BLUE);
+        this.MSweeperLabel.setTextFill(Color.PURPLE);
     }
 }

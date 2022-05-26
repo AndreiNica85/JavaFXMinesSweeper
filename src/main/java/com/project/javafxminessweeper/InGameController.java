@@ -4,15 +4,19 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -23,9 +27,16 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.URL;
+import java.nio.file.Path;
 import java.util.*;
 
-public class InGameController{
+public class InGameController implements Initializable {
+
+    @FXML
+    ProgressIndicator progressIndicator22;
+    @FXML
+    ProgressIndicator progressIndicator11;
 
     @FXML
     private ImageView inGameMainMenuCloseButton;
@@ -37,11 +48,22 @@ public class InGameController{
     ProgressBar progressBar;
 
     @FXML
-    Button minesButton;
+    VBox lastClickVBox;
+    @FXML
+    VBox lastClickCoordsVBox;
 
     @FXML
+    Button secondsInGameButton;
+    @FXML
+    Button mouseClickedButton;
+    @FXML
+    Button columnNumberButton;
+    @FXML
+    Button rowNumberButton;
+    @FXML
+    Button minesButton;
+    @FXML
     Button mouseClicksButton;
-
     @FXML
     Button timerButton;
 
@@ -52,7 +74,14 @@ public class InGameController{
     Difficulty inGameDifficulty;
     Status status;
     DropShadow dropShadowEffect;
-    List<MineSquare> mineSquaresList = new ArrayList<>();
+    List<MineSquare> mineSquaresList;
+    Tooltip minesToDiscoverTool;
+    Tooltip progressBarTool;
+    Tooltip timerTool;
+    Tooltip mouseClicksTool;
+    Tooltip lastMouseClickSquareTool;
+    Tooltip lastMouseClickCoordsTool;
+    String guessedSquareStyleString = "-fx-background-color: transparent; -fx-text-fill: WHITE; -fx-border-color:GRAY; -fx-border-width: 0.7 0.7 0.7 0.7;";
     static int countMouseClicks = 0;
     int flaggedMines = 0;
     int[] seconds;
@@ -63,18 +92,39 @@ public class InGameController{
     private final int[] crossRowCoordsAroundSquare = {-1, 0, 1, 0};
     private final int[] crossColCoordsAroundSquare = { 0, 1, 0,-1};
 
-    public InGameController() {
+    public InGameController()  {
         this.status = Status.INITIAL_STATE;
+        this.mineSquaresList = new ArrayList<>();
         this.timeLine = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
             seconds[0]++;
-            timerButton.setText(String.format("%02d:%02d:%02d", seconds[0] / 3600, (seconds[0] % 3600) / 60, seconds[0] % 60));
-
+            timerButton.setText(String.format("%02d:%02d", seconds[0] / 3600, (seconds[0] % 3600) / 60));
+            secondsInGameButton.setText(String.format("%02d",seconds[0] % 60));
         }));
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.seconds = new int[]{0};
+        this.progressBarTool = new Tooltip("Map Revealed Percentage");
+        this.timerTool = new Tooltip("Timer");
+        this.mouseClicksTool = new Tooltip("Mouse Clicks");
+        this.minesToDiscoverTool = new Tooltip("Remaining Mines");
+        this.lastMouseClickSquareTool = new Tooltip("Last Mouse Click Square");
+        this.lastMouseClickCoordsTool = new Tooltip("Last Mouse Click Square Coordinates");
+        Tooltip.install(this.minesButton,this.minesToDiscoverTool);
+        Tooltip.install(this.secondsInGameButton,this.timerTool);
+        Tooltip.install(this.progressBar,this.progressBarTool);
+        Tooltip.install(this.progressIndicator11,this.progressBarTool);
+        Tooltip.install(this.progressIndicator22,this.progressBarTool);
+        Tooltip.install(this.timerButton,timerTool);
+        Tooltip.install(this.mouseClicksButton,this.mouseClicksTool);
+        Tooltip.install(this.lastClickVBox,this.lastMouseClickSquareTool);
+        Tooltip.install(this.lastClickCoordsVBox,this.lastMouseClickCoordsTool);
+        Tooltip.install(this.mouseClickedButton,this.lastMouseClickSquareTool);
     }
 
     /* Populate Display on first Click */
     public void initializeDisplayOnFirstClick(GridPane pane, int rowFirstClick, int colFirstClick){
-        this.seconds = new int[]{0};
         pane.getChildren().clear();
         this.dropShadowEffect = (DropShadow) pane.getEffect();
         /* Add all mines randomly */
@@ -102,54 +152,71 @@ public class InGameController{
                         NumberSquare numberSquare = new NumberSquare(i,j,digit);
                         this.inGameDisplay.toggleButtonsSquares2DArray[i][j] = numberSquare;
                         numberSquare.setOnMousePressed(f -> {
-                            if(f.getButton() == MouseButton.PRIMARY && numberSquare.isRevealedSquare()){
-                                int guessedMines = countGuessedMinesAroundNumberSquare(numberSquare);
-                                if(guessedMines == numberSquare.getNumber()){
-                                    guessedMinesEqualsNumberMethod(numberSquare);
-                                    countMouseClicks++;
-                                    this.mouseClicksButton.setText("" + InGameController.countMouseClicks);
-                                }else{
-                                    selectSquaresAroundNumberSquare(numberSquare);
+                            if(!numberSquare.getText().equals("?")){
+                                if(f.getButton() == MouseButton.PRIMARY && numberSquare.isRevealedSquare()){
+                                    int guessedMines = countGuessedMinesAroundNumberSquare(numberSquare);
+                                    if(f.getClickCount() == 2 && guessedMines == numberSquare.getNumber()){
+                                        guessedMinesEqualsNumberMethod(numberSquare);
+                                        countMouseClicks++;
+                                        this.mouseClicksButton.setText("" + InGameController.countMouseClicks);
+                                    }else if(f.getClickCount() == 1){
+                                        selectSquaresAroundNumberSquare(numberSquare);
+                                        numberSquare.setSelected(true);
+                                    }
+
                                 }
                             }
                         });
                         numberSquare.setOnMouseReleased(f -> {
-                            if(f.getButton() == MouseButton.PRIMARY && numberSquare.isRevealedSquare()){
-                                deSelectSquaresAroundNumberSquare(numberSquare);
-                                numberSquare.setSelected(true);
+                            if(!numberSquare.getText().equals("?")){
+                                if(f.getButton() == MouseButton.PRIMARY && numberSquare.isRevealedSquare()){
+                                    deSelectSquaresAroundNumberSquare(numberSquare);
+                                    numberSquare.setSelected(true);
+                                }
                             }
                         });
                     }
                 }
                 int finalI = i;
                 int finalJ = j;
+                String initStyle = this.inGameDisplay.toggleButtonsSquares2DArray[finalI][finalJ].getStyle();
                 this.inGameDisplay.toggleButtonsSquares2DArray[i][j].setOnMouseClicked(e -> {
-                        if(e.getButton() == MouseButton.PRIMARY){
+                        if(e.getButton() == MouseButton.PRIMARY && !((AbstractSquare)this.inGameDisplay.toggleButtonsSquares2DArray[finalI][finalJ]).isRevealedSquare()){
                             if(!this.inGameDisplay.toggleButtonsSquares2DArray[finalI][finalJ].getText().equals("?")){
-                                onClickMethod(finalI, finalJ);
+                                onClickMethod(finalI, finalJ,true);
                                 countMouseClicks++;
                                 this.mouseClicksButton.setText("" + InGameController.countMouseClicks);
                             }
                         }else if(e.getButton() == MouseButton.SECONDARY){
                             if(this.inGameDisplay.toggleButtonsSquares2DArray[finalI][finalJ].getText().equals("?")){
                                 this.inGameDisplay.toggleButtonsSquares2DArray[finalI][finalJ].setText(" ");
+                                this.inGameDisplay.toggleButtonsSquares2DArray[finalI][finalJ].setStyle(initStyle);
                                 ((AbstractSquare)this.inGameDisplay.toggleButtonsSquares2DArray[finalI][finalJ]).setRevealedSquare(false);
                                 AbstractSquare.numberOfRevealedSquares--;
                                 if(this.inGameDisplay.toggleButtonsSquares2DArray[finalI][finalJ] instanceof MineSquare){
                                     this.flaggedMines--;
                                 }
                                 this.progressBar.setProgress(countProgressBarPercentage());
+                                this.progressIndicator11.setProgress(this.progressBar.getProgress());
+                                this.progressIndicator22.setProgress(this.progressBar.getProgress());
+                                this.dropShadowEffect.setColor(this.getColor());
+                                this.progressBar.setStyle(progressBarStringColor());
                                 int mines = Integer.parseInt(this.minesButton.getText());
                                 mines++;
                                 this.minesButton.setText("" + mines);
                             }else if(!((AbstractSquare)this.inGameDisplay.toggleButtonsSquares2DArray[finalI][finalJ]).isRevealedSquare()){
                                 this.inGameDisplay.toggleButtonsSquares2DArray[finalI][finalJ].setText("?");
+                                this.inGameDisplay.toggleButtonsSquares2DArray[finalI][finalJ].setStyle(guessedSquareStyleString);
                                 ((AbstractSquare)this.inGameDisplay.toggleButtonsSquares2DArray[finalI][finalJ]).setRevealedSquare(true);
                                 AbstractSquare.numberOfRevealedSquares++;
                                 if(this.inGameDisplay.toggleButtonsSquares2DArray[finalI][finalJ] instanceof MineSquare){
                                     this.flaggedMines++;
                                 }
                                 this.progressBar.setProgress(countProgressBarPercentage());
+                                this.progressIndicator11.setProgress(this.progressBar.getProgress());
+                                this.progressIndicator22.setProgress(this.progressBar.getProgress());
+                                this.dropShadowEffect.setColor(this.getColor());
+                                this.progressBar.setStyle(progressBarStringColor());
                                 int mines = Integer.parseInt(this.minesButton.getText());
                                 mines--;
                                 this.minesButton.setText("" + mines);
@@ -162,12 +229,12 @@ public class InGameController{
                             }
                         }
                 });
-                this.inGameDisplay.toggleButtonsSquares2DArray[i][j].setFocusTraversable(false);  // Doesn't show the mouse focus on random cell
+                this.inGameDisplay.toggleButtonsSquares2DArray[i][j].setFocusTraversable(false);
                 pane.add(this.inGameDisplay.toggleButtonsSquares2DArray[i][j],j,i);
             }
         }
         this.status.startStopShowStatsAndEndGameDialog(this);
-        onClickMethod(rowFirstClick, colFirstClick);
+        onClickMethod(rowFirstClick, colFirstClick,true);
     }
 
     public Status getStatus() {
@@ -179,31 +246,52 @@ public class InGameController{
     }
 
     /* Click Method for Square */
-    protected void onClickMethod(int row, int col){
+    protected void onClickMethod(int row, int col, boolean mouseClick){
         AbstractSquare abstractSquare = (AbstractSquare) this.inGameDisplay.toggleButtonsSquares2DArray[row][col];
-        boolean isRevealedAtThatPoint = abstractSquare.isRevealedSquare();
+        boolean isStillRevealedHereAtThisPoint = abstractSquare.isRevealedSquare();
         if(abstractSquare instanceof NumberSquare){
             abstractSquare.setRevealedSquare(true);
             abstractSquare.revealedAndDiscoveredSquareDisplayOnClick();
             if(this.dropShadowEffect != null){
-                this.dropShadowEffect.setColor((Color) abstractSquare.getTextFill());
+                this.dropShadowEffect.setColor(getColor());
+                this.progressBar.setStyle(progressBarStringColor());
             }
         }else if(abstractSquare instanceof EmptySquare){
             discoverTerritory(row,col);
             if(this.dropShadowEffect != null){
-                this.dropShadowEffect.setColor(Color.DARKSLATEGREY);
+                this.dropShadowEffect.setColor(getColor());
+                this.progressBar.setStyle(progressBarStringColor());
             }
         }else if(abstractSquare instanceof MineSquare){
             discoverAllMines();
-            abstractSquare.setOpacity(0.5);
+            abstractSquare.setText("" + (char)(9760));
+            abstractSquare.setTextFill(Color.RED);
             if(this.dropShadowEffect != null){
-                this.dropShadowEffect.setColor(Color.RED);
+                abstractSquare.setStyle(guessedSquareStyleString);
+                this.dropShadowEffect.setColor(Color.BLACK);
+                this.mouseClickedButton.setText(abstractSquare.getText());
+                this.mouseClickedButton.setTextFill(abstractSquare.getTextFill());
+                this.mouseClickedButton.setEffect(this.dropShadowEffect);
+                this.columnNumberButton.setText("" + (abstractSquare.getColDigit() + 1));
+                this.rowNumberButton.setText("" + (abstractSquare.getRowDigit() + 1));
             }
+
             this.status = endGameStatusMethod();
             this.status.startStopShowStatsAndEndGameDialog(this);
         }
-        if(!isRevealedAtThatPoint){
+        if(!isStillRevealedHereAtThisPoint){  // For guessedMinesEqualsNumberMethod() Method
             this.progressBar.setProgress(countProgressBarPercentage());//Update progressBar
+            this.progressIndicator11.setProgress(this.progressBar.getProgress());
+            this.progressIndicator22.setProgress(this.progressBar.getProgress());
+        }
+        if(mouseClick){
+            Color absColor = (Color) abstractSquare.getTextFill();
+            DropShadow DSEffect = (DropShadow) this.mouseClickedButton.getEffect();
+            this.mouseClickedButton.setText(abstractSquare.getText());
+            this.mouseClickedButton.setTextFill(abstractSquare.getTextFill());
+            DSEffect.setColor(absColor);
+            this.columnNumberButton.setText("" + (abstractSquare.getColDigit() + 1));
+            this.rowNumberButton.setText("" + (abstractSquare.getRowDigit() + 1));
         }
         if(isGameFinished()){
             this.status = endGameStatusMethod();
@@ -226,52 +314,62 @@ public class InGameController{
         }
         this.player.setPercentageFinishedGames(player.calculatePercentageFinishedGames(player.getTotalGamesPlayed(),player.getGamesFinished()));
         this.player.setBestNumberOfSweptMines(Math.max(this.flaggedMines, this.player.getBestNumberOfSweptMines()));
-        if(this.status == Status.FINISHED_RATED_GAME){
-            if(this.player.getBestNumberOfMouseClicks() > 0){
-                this.player.setBestNumberOfMouseClicks(Math.min(Integer.parseInt(this.mouseClicksButton.getText()),this.player.getBestNumberOfMouseClicks()));
+        if(this.status == Status.FINISHED_RATED_GAME) {
+            if (this.player.getBestNumberOfMouseClicks() > 0) {
+                this.player.setBestNumberOfMouseClicks(Math.min(Integer.parseInt(this.mouseClicksButton.getText()), this.player.getBestNumberOfMouseClicks()));
+            } else {
+                this.player.setBestNumberOfMouseClicks(Integer.parseInt(this.mouseClicksButton.getText()));
             }
-            this.player.setBestTimeInSeconds(Math.min(this.seconds[0],this.player.getBestTimeInSeconds()));
-        }else{
-            this.player.setBestNumberOfMouseClicks(Integer.parseInt(this.mouseClicksButton.getText()));
+            if (this.player.getBestTimeInSeconds() > 0) {
+                this.player.setBestTimeInSeconds(Math.min(this.seconds[0], this.player.getBestTimeInSeconds()));
+            } else {
+                this.player.setBestTimeInSeconds(this.seconds[0]);
+            }
         }
         this.player.setBestPercentageRevealedMap(Math.max(this.progressBar.getProgress() * 100.0, this.player.getBestPercentageRevealedMap()));
     }
 
     /* Write Player to file on End Game */
     public void writePlayerToFile(){
+        Path path = Main.topPath;
+
+        Path fileTopEasy = Path.of(path.toString(),"bestPlayersEasy.dat");
+        Path fileTopNormal = Path.of(path.toString(),"bestPlayersNormal.dat");
+        Path fileTopHard = Path.of(path.toString(),"bestPlayersHard.dat");
+
         if(inGameDifficulty != Difficulty.CUSTOM){
             if(inGameDifficulty == Difficulty.EASY){
-                try(ObjectOutputStream objectOutputStream1 = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("src/main/resources/com/project/javafxminessweeper/bestPlayersEasy.dat")))){
+                try(ObjectOutputStream objectOutputStream1 = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(fileTopEasy.toString())))){
                     try {
                         objectOutputStream1.writeObject(inGameList);
                         objectOutputStream1.flush();
                     } catch (IOException e) {
-                        System.out.println("From for each write object writePlayerToFile easy");
+                        e.printStackTrace();
                     }
                 }catch (IOException f){
-                    System.out.println("From objectOutputstream writePlayerToFile easy");
+                    f.printStackTrace();
                 }
             }else if(inGameDifficulty == Difficulty.NORMAL){
-                try(ObjectOutputStream objectOutputStream2 = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("src/main/resources/com/project/javafxminessweeper/bestPlayersNormal.dat")))){
+                try(ObjectOutputStream objectOutputStream2 = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(fileTopNormal.toString())))){
                     try {
                         objectOutputStream2.writeObject(inGameList);
                         objectOutputStream2.flush();
                     } catch (IOException e) {
-                        System.out.println("From for each write object writePlayerToFile normal");
+                        e.printStackTrace();
                     }
                 }catch (IOException f){
-                    System.out.println("From objectOutputstream writePlayerToFile normal");
+                    f.printStackTrace();
                 }
             }else if(inGameDifficulty == Difficulty.HARD){
-                try(ObjectOutputStream objectOutputStream3 = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("src/main/resources/com/project/javafxminessweeper/bestPlayersHard.dat")))){
+                try(ObjectOutputStream objectOutputStream3 = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(fileTopHard.toString())))){
                     try {
                         objectOutputStream3.writeObject(inGameList);
                         objectOutputStream3.flush();
                     } catch (IOException e) {
-                        System.out.println("From for each write object writePlayerToFile hard");
+                        e.printStackTrace();
                     }
                 }catch (IOException f){
-                    System.out.println("From objectOutputstream writePlayerToFile hard");
+                    f.printStackTrace();
                 }
             }
         }
@@ -279,7 +377,7 @@ public class InGameController{
 
     /* Check if Game is Finished */
     boolean isGameFinished(){
-        return countProgressBarPercentage() == 1.0 && this.flaggedMines == this.getInGameDisplay().getMines();
+        return countProgressBarPercentage() == 1.0 && this.minesButton.getText().equals("0") && this.flaggedMines == this.getInGameDisplay().getMines();
     }
 
     /* Discover all Mines function */
@@ -312,6 +410,21 @@ public class InGameController{
             result = 0.0;
         }
         return result;
+    }
+
+    private Color getColor(){
+        double color = Double.parseDouble(String.format("%.2f",countProgressBarPercentage()));
+        return new Color(1.0-color,color,0.0,1.0);
+    }
+
+    private String progressBarStringColor(){
+        if(this.countProgressBarPercentage() < 0.24){
+            return "-fx-accent: RED";
+        }else if(this.countProgressBarPercentage() < 0.76){
+            return "-fx-accent: YELLOWGREEN";
+        }else{
+            return "-fx-accent: GREEN";
+        }
     }
 
     /* Discover territory function */
@@ -369,6 +482,7 @@ public class InGameController{
             int colAdd = colCoordsAroundSquareDigitToAdd[i] + numberSquare.getColDigit();
             if (isValidSquareCell(rowAdd, colAdd) && !((AbstractSquare)this.inGameDisplay.toggleButtonsSquares2DArray[rowAdd][colAdd]).isRevealedSquare()) {
                 this.inGameDisplay.toggleButtonsSquares2DArray[rowAdd][colAdd].setSelected(false);
+                this.inGameDisplay.toggleButtonsSquares2DArray[rowAdd][colAdd].setText(" ");
             }
         }
     }
@@ -379,16 +493,18 @@ public class InGameController{
             int colAdd = colCoordsAroundSquareDigitToAdd[i] + numberSquare.getColDigit();
             if (isValidSquareCell(rowAdd, colAdd) && !((AbstractSquare)this.inGameDisplay.toggleButtonsSquares2DArray[rowAdd][colAdd]).isRevealedSquare()) {
                 this.inGameDisplay.toggleButtonsSquares2DArray[rowAdd][colAdd].setSelected(true);
+                this.inGameDisplay.toggleButtonsSquares2DArray[rowAdd][colAdd].setText("" + (char)(9760));
             }
         }
     }
-    public void guessedMinesEqualsNumberMethod(NumberSquare numberSquare1){
+
+    public void guessedMinesEqualsNumberMethod(NumberSquare numberSquare){
         for(int i = 0; i < rowCoordsAroundSquareDigitToAdd.length; i++){
-            int rowAdd = rowCoordsAroundSquareDigitToAdd[i] + numberSquare1.getRowDigit();
-            int colAdd = colCoordsAroundSquareDigitToAdd[i] + numberSquare1.getColDigit();
+            int rowAdd = rowCoordsAroundSquareDigitToAdd[i] + numberSquare.getRowDigit();
+            int colAdd = colCoordsAroundSquareDigitToAdd[i] + numberSquare.getColDigit();
             if(isValidSquareCell(rowAdd,colAdd) && !this.inGameDisplay.toggleButtonsSquares2DArray[rowAdd][colAdd].getText().equals("?") && !((AbstractSquare)this.inGameDisplay.toggleButtonsSquares2DArray[rowAdd][colAdd]).isRevealedSquare()){
                 AbstractSquare abstractSquare = (AbstractSquare) this.inGameDisplay.toggleButtonsSquares2DArray[rowAdd][colAdd];
-                onClickMethod(abstractSquare.getRowDigit(), abstractSquare.getColDigit());
+                onClickMethod(abstractSquare.getRowDigit(), abstractSquare.getColDigit(),false);
                 if(abstractSquare instanceof MineSquare){
                     return;
                 }
@@ -432,7 +548,7 @@ public class InGameController{
 
         endGameDialogPaneController.minesSweptButton.setText("" + this.flaggedMines + "/" + getInGameDisplay().getMines());
         endGameDialogPaneController.mouseClicksButton.setText("" + countMouseClicks);
-        endGameDialogPaneController.timeButton.setText("" + timerButton.getText());
+        endGameDialogPaneController.timeButton.setText("" + timerButton.getText() + ":" + String.format("%02d",seconds[0] % 60));
         endGameDialogPaneController.endGameProgressIndicator.setProgress(Double.parseDouble(String.format("%.2f",countProgressBarPercentage())));
 
         if(status != Status.GAME_OVER){
@@ -440,7 +556,11 @@ public class InGameController{
             endGameDialogPaneController.gameOverAndCongratButton.setTextFill(Color.BLUE);
         }
 
-        endGameDialogPaneController.gameOverAndCongratButton.setOnMouseClicked(e -> stage.close());
+        endGameDialogPaneController.gameOverAndCongratButton.setOnMouseClicked(e -> {
+            if(status == Status.FINISHED_CUSTOM_GAME) {
+                    stage.close();
+            }
+        });
 
         /* Drag EndGameDialogPane Window to be able to see the mines Display */
         root.setOnMousePressed(pressEvent -> {

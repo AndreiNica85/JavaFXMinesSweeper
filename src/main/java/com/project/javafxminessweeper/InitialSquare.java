@@ -10,4 +10,5 @@ public class InitialSquare extends AbstractSquare{
     protected void revealedSquare() {
         this.setText(" ");
     }
+
 }

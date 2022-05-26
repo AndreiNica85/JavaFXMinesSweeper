@@ -31,4 +31,5 @@ public class NumberSquare extends AbstractSquare{
     public int getNumber() {
         return this.number;
     }
+
 }

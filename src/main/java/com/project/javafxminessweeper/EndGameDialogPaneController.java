@@ -28,7 +28,4 @@ public class EndGameDialogPaneController {
     @FXML
     ProgressIndicator endGameProgressIndicator;
 
-    public EndGameDialogPaneController(){
-
-    }
 }

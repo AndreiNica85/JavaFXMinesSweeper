@@ -1,6 +1,8 @@
 package com.project.javafxminessweeper;
 
 import javafx.scene.control.ToggleButton;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public abstract class AbstractSquare extends ToggleButton {
     private int rowDigit;
@@ -17,7 +19,7 @@ public abstract class AbstractSquare extends ToggleButton {
     public AbstractSquare(){
         this.setMinSize(25,25);
         this.setMaxSize(25,25);
-        this.setPrefSize(25,25);
+        this.setFont(Font.font("Times New Roman", FontWeight.NORMAL,10));
     }
 
     public int getRowDigit() {
