@@ -1,5 +1,5 @@
 # JavaFXMinesSweeper
-My version of MinesSweeper Game
+My version of MinesSweeper Game - Windows Desktop Application Version
 
 Final Version 1.0
 
