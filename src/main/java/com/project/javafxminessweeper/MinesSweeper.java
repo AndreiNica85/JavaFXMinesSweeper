@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/** Welcome to MinesSweeper. A game we all love. */
+/** Welcome to MinesSweeper. A game we all love! */
 
 public class MinesSweeper extends Application {
 

@@ -73,8 +73,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        /* This property enables you to use any Scale percentage on Windows Display. Without it, you won't be able to see the square texts
-        * on higher than 100% Scale length */
+        /* This property enables you to use any Scale percentage on Windows Display. Without it, you won't be able to see the square texts on higher than 100% Scale length */
         System.setProperty("prism.allowhidpi", "false");
 
         /* Launch the game */
