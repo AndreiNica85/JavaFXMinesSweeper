@@ -5,27 +5,29 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.Pane;
 
+/** MVC Controller Class for EndGameDialogPane */
+
 public class EndGameDialogPaneController {
 
     @FXML
-    Pane endGamePane;
+    protected Pane endGamePane;
 
     @FXML
-    Button backToMenuButton;
+    protected Button backToMenuButton;
 
     @FXML
-    Button gameOverAndCongratButton;
+    protected Button gameOverAndCongratButton;
 
     @FXML
-    Button minesSweptButton;
+    protected Button minesSweptButton;
 
     @FXML
-    Button mouseClicksButton;
+    protected Button mouseClicksButton;
 
     @FXML
-    Button timeButton;
+    protected Button timeButton;
 
     @FXML
-    ProgressIndicator endGameProgressIndicator;
+    protected ProgressIndicator endGameProgressIndicator;
 
 }

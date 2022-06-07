@@ -16,7 +16,7 @@
          <effect>
             <DropShadow height="35.66" radius="17.33" width="35.66">
                <color>
-                  <Color red="0.8899999856948853" green="0.008899999782443047" blue="0.008899999782443047" />
+                  <Color red="0.8899999856948853" green="0.008899999782443046" blue="0.008899999782443047" />
                </color>
             </DropShadow>
          </effect>

@@ -4,6 +4,8 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
+/** Player details Class */
+
 public class Player implements Serializable{
 
     @Serial
@@ -50,6 +52,7 @@ public class Player implements Serializable{
                 '}';
     }
 
+    /** Getters and setters */
     public double getPercentageFinishedGames() {
         return percentageFinishedGames;
     }
@@ -58,6 +61,7 @@ public class Player implements Serializable{
         this.percentageFinishedGames = percentageFinishedGames;
     }
 
+    /* The percentage of Finished Games calculated in 2 decimals double value */
     public double calculatePercentageFinishedGames(int totalGamesPlayed, int gamesFinished) {
         return Double.parseDouble(String.format("%.2f",(gamesFinished * 100.0 / totalGamesPlayed)));
     }
@@ -118,6 +122,7 @@ public class Player implements Serializable{
         this.bestTimeInSeconds = bestTimeInSeconds;
     }
 
+    /* Percentage of BestRevealedMap for player transformed in 2 decimal places double value */
     public double getBestPercentageRevealedMap() {
         return Double.parseDouble(String.format("%.2f",this.bestPercentageRevealedMap));
     }
