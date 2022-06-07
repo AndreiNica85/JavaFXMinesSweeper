@@ -20,7 +20,7 @@ public class MinesSweeper extends Application {
         stage.show();
     }
 
-    public static void minesSweeperLaunch(){
-        launch();
+    public static void minesSweeper(String[] args) {
+        launch(args);
     }
 }
