@@ -2,6 +2,8 @@ package com.project.javafxminessweeper;
 
 import java.util.Comparator;
 
+/** Proper Comparator class to sort players in Top 10 Tables Lists */
+
 public class PlayerComparator implements Comparator<Player> {
     @Override
     public int compare(Player p1, Player p2) {

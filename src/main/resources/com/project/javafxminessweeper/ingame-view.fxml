@@ -98,7 +98,7 @@
                   <Insets left="-3.0" />
                </HBox.margin>
             </ProgressBar>
-            <ProgressIndicator fx:id="progressIndicator22" progress="0.0" style="-fx-accent: GREEN;">
+            <ProgressIndicator fx:id="progressIndicator22" progress="0.0" style="-fx-accent: LIGHTGREEN;">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -150,7 +150,7 @@
                   </InnerShadow>
                </effect>
                <image>
-                  <Image url="@close-button-img.jpg" />
+                  <Image url="@close-button-image.jpg" />
                </image>
                <HBox.margin>
                   <Insets />

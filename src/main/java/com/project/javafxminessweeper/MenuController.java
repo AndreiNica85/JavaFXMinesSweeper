@@ -26,6 +26,8 @@ import java.util.ResourceBundle;
 
 import static com.project.javafxminessweeper.Difficulty.*;
 
+/** MVC Controller Class for game start Menu */
+
 public class MenuController implements Initializable{
 
     @FXML
@@ -131,6 +133,7 @@ public class MenuController implements Initializable{
     @FXML
     private Accordion menuAccordion;
 
+    /* Tooltip fields */
     private final Tooltip positionNumberTooltip;
     private final Tooltip nameTooltip;
     private final Tooltip totalGamesTooltip;
@@ -144,6 +147,7 @@ public class MenuController implements Initializable{
     private final Tooltip customGameRowsNumberTool;
     private final Tooltip customGameNumberOfMinesTool;
 
+    /* Label fields */
     private final Label posLabelToolEasy;
     private final Label posLabelToolNormal;
     private final Label posLabelToolHard;
@@ -176,12 +180,15 @@ public class MenuController implements Initializable{
     private Display controllerDisplay;
     private Stage stage;
     private Difficulty difficulty;
+
+    /* Top 10 List fields */
     private List<Player> best10PlayersEasyList;
     private List<Player> best10PlayersNormalList;
     private List<Player> best10PlayersHardList;
 
-    /** Constructor - Called before initialize() method */
+    /* Constructor - Called before initialize() method */
     public MenuController() throws Exception {
+        /* Creating Tooltips */
         this.customGameColumnsNumberTool = new Tooltip("Number of Columns - Must be between 2 and 28");
         this.customGameRowsNumberTool = new Tooltip("Number of Rows - Must be between 2 and 24");
         this.customGameNumberOfMinesTool = new Tooltip("Number of Mines");
@@ -196,6 +203,7 @@ public class MenuController implements Initializable{
         this.bestMinesSweptNumberTooltip = new Tooltip("Best Number of Mines Discovered");
         this.bestMouseClicksNumberTooltip = new Tooltip("Best Number of Mouse Clicks");
 
+        /* Tooltips labels */
         this.posLabelToolEasy  = new Label("#");
         this.posLabelToolNormal = new Label("#");
         this.posLabelToolHard = new Label("#");
@@ -224,6 +232,7 @@ public class MenuController implements Initializable{
         this.bestNumberMouseClicksLabelToolNormal = new Label("BMC");
         this.bestNumberMouseClicksLabelToolHard = new Label("BMC");
 
+        /* Set Tooltips to corresponding labels */
         this.posLabelToolEasy.setTooltip(this.positionNumberTooltip);
         this.posLabelToolNormal.setTooltip(this.positionNumberTooltip);
         this.posLabelToolHard.setTooltip(this.positionNumberTooltip);
@@ -252,22 +261,27 @@ public class MenuController implements Initializable{
         this.bestNumberMouseClicksLabelToolNormal.setTooltip(this.bestMouseClicksNumberTooltip);
         this.bestNumberMouseClicksLabelToolHard.setTooltip(this.bestMouseClicksNumberTooltip);
 
+        /* Default settings for Rated Game start */
+        this.difficulty = NORMAL;
+        this.controllerDisplay = new Display(16,18,40,40);
+
         this.infoTextLabel = new Label();
+        this.choiceBox = new ChoiceBox<>();
+
         this.best10PlayersEasyList = new ArrayList<>();
         this.best10PlayersNormalList = new ArrayList<>();
         this.best10PlayersHardList = new ArrayList<>();
-        this.difficulty = NORMAL;
-        this.controllerDisplay = new Display(16,18,40,40);
-        this.choiceBox = new ChoiceBox<>();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        /* Setting up Tooltips whose Node objects are null before this initialize, so they need to be set here */
         this.playerName.setTooltip(this.nameTooltip);
         this.textFieldSetCustomHeight.setTooltip(this.customGameRowsNumberTool);
         this.textFieldSetCustomWidth.setTooltip(this.customGameColumnsNumberTool);
         this.textFieldSetNumberOfMines.setTooltip(this.customGameNumberOfMinesTool);
 
+        /* Set Tooltips graphic to every table columns */
         this.positionNumberColumnTableEasy.setGraphic(this.posLabelToolEasy);
         this.positionNumberColumnTableNormal.setGraphic(this.posLabelToolNormal);
         this.positionNumberColumnTableHard.setGraphic(this.posLabelToolHard);
@@ -296,15 +310,26 @@ public class MenuController implements Initializable{
         this.bestNumberOfMouseClicksColumnNormal.setGraphic(this.bestNumberMouseClicksLabelToolNormal);
         this.bestNumberOfMouseClicksColumnHard.setGraphic(this.bestNumberMouseClicksLabelToolHard);
 
-        this.mainLabelText = this.mainLabel.getText();
-        this.menuAccordion.setExpandedPane(this.titledPaneNormal);
-        this.titledPaneNormal.setExpanded(true);
+        /* Expand Top 10 titledPane on game start */
+        expandTitledPaneAtLoadMenu(this.titledPaneNormal);
+
+        /* Animation for Accordion Title Panes */
         this.titledPaneNormal.setAnimated(true);
         this.titledPaneHard.setAnimated(true);
         this.titledPaneEasy.setAnimated(true);
+
+        /* Set Choice box choices and default value */
         this.choiceBox.getItems().addAll("Difficulty: Hard", "Difficulty: Normal", "Difficulty: Easy");
         this.choiceBox.setValue("Difficulty: Normal");
+
+        this.mainLabelText = this.mainLabel.getText();
         InnerShadow innerShadowChoiceBox = (InnerShadow) choiceBox.getEffect();
+        this.infoTextLabel.setText(
+                "   Choose number of mines, number of columns (width between 2-28)\n" +
+                        "      and number of rows (height between 2-24) for in game Display.\n" +
+                        "Custom games don't count for the Top 10 players tables above. Have Fun!");
+
+        /* Change colors, game difficulty and expanded property when choice box option chosen on Action */
         this.choiceBox.setOnAction(e -> {
             String diff = this.choiceBox.getValue();
             switch (diff) {
@@ -328,12 +353,8 @@ public class MenuController implements Initializable{
                 }
             }
         });
-        this.infoTextLabel.setText(
-                "   Choose number of mines, number of columns (width between 2-28)\n" +
-                        "      and number of rows (height between 2-24) for in game Display.\n" +
-                        "Custom games don't count for the Top 10 players tables above. Have Fun!");
 
-        /* Top 10 Tabel Settings */
+        /* Top 10 Tables Settings */
         nameColumnTableEasy.setCellValueFactory(new PropertyValueFactory("name"));
         nameColumnTableNormal.setCellValueFactory(new PropertyValueFactory("name"));
         nameColumnTableHard.setCellValueFactory(new PropertyValueFactory("name"));
@@ -362,11 +383,13 @@ public class MenuController implements Initializable{
         bestPercentageRevealedMapColumnNormal.setCellValueFactory(new PropertyValueFactory("bestPercentageRevealedMap"));
         bestPercentageRevealedMapColumnHard.setCellValueFactory(new PropertyValueFactory("bestPercentageRevealedMap"));
 
+        /* Populate Top 10 Tables reading from game directory files */
         readFromFileAndPopulateTopTenPlayers();
     }
 
+    /* Read from game directory files for Top 10 Players */
     private void readFromFileAndPopulateTopTenPlayers(){
-        Path path = Main.topPath;
+        Path path = MinesSweeperLaunch.topPath;
 
         Path fileTopEasy = Path.of(path.toString(),"bestPlayersEasy.dat");
         Path fileTopNormal = Path.of(path.toString(),"bestPlayersNormal.dat");
@@ -394,6 +417,7 @@ public class MenuController implements Initializable{
         List<Player> normalList = new ArrayList<>();
         List<Player> hardList = new ArrayList<>();
 
+        /* Use player comparator to sort the lists that contain players and store only first 10 of them along with their posNumbers */
         PlayerComparator comparator = new PlayerComparator();
 
         if(this.best10PlayersEasyList != null){
@@ -423,67 +447,48 @@ public class MenuController implements Initializable{
         this.tableViewEasy.setItems(FXCollections.observableList(easyList));
     }
 
+    /* Expand to see Top at load Menu */
+    public void expandTitledPaneAtLoadMenu(TitledPane titledPane){
+        titledPane.setExpanded(true);
+        this.menuAccordion.setExpandedPane(titledPane);
+    }
+
     /* Set GridPane Display Nodes on Start Game */
     public GridPane setNodesOnInGameGridPaneDisplay(InGameController inGameController, GridPane gridPane, int rows, int cols){
+        /* It is 25 multiplication because a square is 25 * 25 area long (Check AbstractSquare constructor) */
         gridPane.setMaxHeight(25 * rows);
         gridPane.setMaxWidth(25 * cols);
+        /* Populating Pane and display2DArray with Initial squares */
         for (int r = 0; r < rows; r++) {   //height
             for (int c = 0; c < cols; c++) {  //width
                 ToggleButton tog = new InitialSquare(r,c);
                 int finalR = r;
                 int finalC = c;
+
+                /* Set each InitialSquare toggleButton with initializeDisplayOnFirstClick method event */
                 tog.setOnMouseClicked(e -> {
                     InGameController.countMouseClicks++;
-                    inGameController.mouseClicksButton.setText("" + InGameController.countMouseClicks);
+                    inGameController.getMouseClicksButton().setText("" + InGameController.countMouseClicks);
                     inGameController.initializeDisplayOnFirstClick(gridPane,finalR, finalC);
                 });
-                this.controllerDisplay.toggleButtonsSquares2DArray[r][c] = tog;
+
+                /* Focus traversable false doesn't show the focus mouse selecting square border for this Node */
+                tog.setFocusTraversable(false);
+                this.controllerDisplay.getDisplay2DArray()[r][c] = tog;
                 gridPane.add(tog, c, r);
             }
         }
         return gridPane;
     }
 
-    /** StartGame functionality */
-    @FXML
-    protected void startGameClickActionButton() throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("ingame-view.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        InGameController inGameController = loader.getController();
-        if(this.playerName.getText().isEmpty()){
-            this.mainLabel.setText("Player Name must not be empty!");
-            this.mainLabel.setTextFill(Color.RED);
-            return;
-        }else{
-            inGameController.player = new Player(this.playerName.getText());
-        }
-        this.controllerDisplay = startGameSetDisplay();
-        int rows = this.controllerDisplay.toggleButtonsSquares2DArray.length;
-        int cols = this.controllerDisplay.toggleButtonsSquares2DArray[0].length;
-        inGameController.setInGameDisplay(this.controllerDisplay);
-        inGameController.setStatus(Status.STARTED_RATED_GAME);
-        inGameController.inGameGridPane = setNodesOnInGameGridPaneDisplay(inGameController, inGameController.inGameGridPane, rows, cols);
-        inGameController.minesButton.setText("" + inGameController.getInGameDisplay().getMines());
-        inGameController.inGameDifficulty = this.difficulty;
-
-        if(this.difficulty == EASY){
-            inGameController.inGameList = this.best10PlayersEasyList;
-        }else if(this.difficulty == NORMAL){
-            inGameController.inGameList = this.best10PlayersNormalList;
-        }else if(this.difficulty == HARD){
-            inGameController.inGameList = this.best10PlayersHardList;
-        }
-        stage = (Stage) startGameButton.getScene().getWindow();
-        stage.setScene(scene);
-    }
-
+    /* Action for exitGameButton to exit game */
     @FXML
     protected void exitGameClickActionButton(){
         stage = (Stage) exitGameButton.getScene().getWindow();
         stage.close();
     }
 
+    /* Set Display by Difficulty - when Difficulty is chosen from choiceBox */
     protected Display startGameSetDisplay() throws BoundaryException{
         if(difficulty == EASY) {
             this.controllerDisplay = new Display(8, 10, 10,10);
@@ -495,16 +500,67 @@ public class MenuController implements Initializable{
         return this.controllerDisplay;
     }
 
-    /** Start Custom Game functionality */
+    /* Start Rated Game functionality */
     @FXML
-    protected void startCustomGameClickActionButton() throws IOException{
+    protected void startGameClickActionButton() throws Exception{
+        /* Load .fxml file */
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ingame-view.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
+
+        /* Get InGameController object to be able to configure some object before setting this new InGameController object Scene to Stage */
         InGameController inGameController = loader.getController();
+
+        /* Get Player name before Start Game */
+        if(this.playerName.getText().isEmpty()){
+            this.mainLabel.setText("Player Name must not be empty!");
+            this.mainLabel.setTextFill(Color.RED);
+            return;
+        }else{
+            inGameController.setPlayer(new Player(this.playerName.getText()));
+        }
+
+        /* Set InGame display */
+        this.controllerDisplay = startGameSetDisplay();
+        int rows = this.controllerDisplay.getDisplay2DArray().length;
+        int cols = this.controllerDisplay.getDisplay2DArray()[0].length;
+        inGameController.setInGameDisplay(this.controllerDisplay);
+
+        inGameController.setInGameGridPane(setNodesOnInGameGridPaneDisplay(inGameController, inGameController.getInGameGridPane(), rows, cols));
+        inGameController.minesButton.setText("" + inGameController.getInGameDisplay().getMines());
+        inGameController.setInGameDifficulty(this.difficulty);
+
+        /* Get Top 10 Player List to be updated by difficulty */
+        if(this.difficulty == EASY){
+            inGameController.setInGameList(this.best10PlayersEasyList);
+        }else if(this.difficulty == NORMAL){
+            inGameController.setInGameList(this.best10PlayersNormalList);
+        }else if(this.difficulty == HARD){
+            inGameController.setInGameList(this.best10PlayersHardList);
+        }
+
+        /* Start Rated Game */
+        inGameController.setStatus(Status.STARTED_RATED_GAME);
+        stage = (Stage) startGameButton.getScene().getWindow();
+        stage.setScene(scene);
+    }
+
+    /* Start Custom Game functionality */
+    @FXML
+    protected void startCustomGameClickActionButton() throws IOException{
+
+        /* Load .fxml file. After that load Parent root to be able to create new Scene */
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ingame-view.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+
+        /* Load InGame Controller Object to be able to manage some Objects before showing the new Scene */
+        InGameController inGameController = loader.getController();
+
+        /* Set up the new Scene */
         this.difficulty = CUSTOM;
-        inGameController.inGameDifficulty = this.difficulty;
-        inGameController.setStatus(Status.STARTED_CUSTOM_GAME);
+        inGameController.setInGameDifficulty(this.difficulty);
+
         int mines, cols, rows, minesMaxLimit = 1;
         try{
             mines = Integer.parseInt(textFieldSetNumberOfMines.getText());
@@ -527,13 +583,18 @@ public class MenuController implements Initializable{
             }
             return;
         }
+
         inGameController.setInGameDisplay(this.controllerDisplay);
-        inGameController.inGameGridPane = setNodesOnInGameGridPaneDisplay(inGameController, inGameController.inGameGridPane,this.controllerDisplay.toggleButtonsSquares2DArray.length,this.controllerDisplay.toggleButtonsSquares2DArray[0].length);
+        inGameController.setInGameGridPane(setNodesOnInGameGridPaneDisplay(inGameController, inGameController.getInGameGridPane(), this.controllerDisplay.getDisplay2DArray().length, this.controllerDisplay.getDisplay2DArray()[0].length));
         inGameController.minesButton.setText("" + inGameController.getInGameDisplay().getMines());
+        inGameController.setStatus(Status.STARTED_CUSTOM_GAME);
+
+        /* Set the new Scene to Stage and start Custom Game */
         stage = (Stage) startCustomGameButton.getScene().getWindow();
         stage.setScene(scene);
     }
 
+    /* Change styles and colors - On Action methods - on Main Menu */
     @FXML
     protected void colorGrayForCustomGameAnchorPaneMethod(){
         this.anchorPaneStartCustomGame.setStyle("-fx-background-color: LIGHTGRAY;");

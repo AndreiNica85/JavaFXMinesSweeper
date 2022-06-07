@@ -4,36 +4,39 @@ import javafx.animation.Animation;
 
 import java.io.IOException;
 
+/** In Game Status Enum */
+
 public enum Status {
 
-    INITIAL_STATE(false){
+    /* Initial Status is used when object created and is active before first mouse click on squares */
+    INITIAL_STATUS{
         @Override
-        public void startStopShowStatsAndEndGameDialog(InGameController inGameController) {
+        public void startStopTimer_EndGameDialog(InGameController inGameController) {
 
         }
     },
 
-    STARTED_RATED_GAME(true) {
+    STARTED_RATED_GAME{
         @Override
-        public void startStopShowStatsAndEndGameDialog(InGameController inGameController) {
-            inGameController.timeLine.setCycleCount(Animation.INDEFINITE);
-            inGameController.timeLine.play();
+        public void startStopTimer_EndGameDialog(InGameController inGameController) {
+            inGameController.getTimeLine().setCycleCount(Animation.INDEFINITE);
+            inGameController.getTimeLine().play();
         }
     },
 
-    STARTED_CUSTOM_GAME(true) {
+    STARTED_CUSTOM_GAME{
         @Override
-        public void startStopShowStatsAndEndGameDialog(InGameController inGameController) {
-            inGameController.timeLine.setCycleCount(Animation.INDEFINITE);
-            inGameController.timeLine.play();
+        public void startStopTimer_EndGameDialog(InGameController inGameController) {
+            inGameController.getTimeLine().setCycleCount(Animation.INDEFINITE);
+            inGameController.getTimeLine().play();
         }
     },
 
-    FINISHED_RATED_GAME(false){
+    FINISHED_RATED_GAME{
         @Override
-        public void startStopShowStatsAndEndGameDialog(InGameController inGameController) {
+        public void startStopTimer_EndGameDialog(InGameController inGameController) {
             try {
-                inGameController.timeLine.stop();
+                inGameController.getTimeLine().stop();
                 inGameController.showEndGameDialogPane(this);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -41,11 +44,11 @@ public enum Status {
         }
     },
 
-    FINISHED_CUSTOM_GAME(false){
+    FINISHED_CUSTOM_GAME{
         @Override
-        public void startStopShowStatsAndEndGameDialog(InGameController inGameController) {
+        public void startStopTimer_EndGameDialog(InGameController inGameController) {
             try {
-                inGameController.timeLine.stop();
+                inGameController.getTimeLine().stop();
                 inGameController.showEndGameDialogPane(this);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -53,11 +56,11 @@ public enum Status {
         }
     },
 
-    GAME_OVER(false) {
+    GAME_OVER {
         @Override
-        public void startStopShowStatsAndEndGameDialog(InGameController inGameController) {
+        public void startStopTimer_EndGameDialog(InGameController inGameController) {
             try {
-                inGameController.timeLine.stop();
+                inGameController.getTimeLine().stop();
                 inGameController.showEndGameDialogPane(this);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -65,16 +68,7 @@ public enum Status {
         }
     };
 
-    final private boolean isPlaying;
-
-    public abstract void startStopShowStatsAndEndGameDialog(InGameController inGameController);
-
-    Status(boolean isPlaying){
-        this.isPlaying = isPlaying;
-    }
-
-    public boolean isPlaying() {
-        return isPlaying;
-    }
+    /* Starts or Stops the Timer and shows EndGameDialog */
+    public abstract void startStopTimer_EndGameDialog(InGameController inGameController);
 
 }

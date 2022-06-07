@@ -4,6 +4,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+/** Class for Number state of an AbstractSquare */
+
 public class NumberSquare extends AbstractSquare{
     private final int number;
 
@@ -12,8 +14,9 @@ public class NumberSquare extends AbstractSquare{
         this.number = number;
     }
 
+    /* Different colors for every Number. The highest number could be 8 if a NumberSquare has 8 mine squares around it */
     @Override
-    public void revealedSquare(){
+    public void revealSquare(){
         switch (this.number) {
             case 1 -> this.setTextFill(Color.BLUE);
             case 2 -> this.setTextFill(Color.MEDIUMSEAGREEN);
@@ -28,8 +31,8 @@ public class NumberSquare extends AbstractSquare{
         this.setFont(Font.font("Times New Roman", FontWeight.BOLD,14));
     }
 
+    /** Getter */
     public int getNumber() {
         return this.number;
     }
-
 }

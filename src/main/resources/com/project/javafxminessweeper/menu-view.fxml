@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<GridPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.javafxminessweeper.MenuController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="525.0" prefWidth="688.0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+         <top>
+            <HBox alignment="CENTER" maxWidth="800.0" prefHeight="32.0" prefWidth="509.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="35.0" left="35.0" right="35.0" top="35.0" />
+               </BorderPane.margin>
+               <children>
+                  <Label fx:id="mainLabel" alignment="CENTER" prefHeight="32.0" prefWidth="639.0" text="Welcome to MinesSweeper. Don't step on the mines. They hurt!" textAlignment="CENTER" textFill="#1906c9" />
+               </children>
+            </HBox>
+         </top>
+         <left>
+            <AnchorPane maxHeight="430.0" prefHeight="399.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+               <children>
+                  <SplitPane dividerPositions="0.3806146572104019" layoutX="1.0" layoutY="-22.0" maxHeight="439.0" orientation="VERTICAL" prefHeight="439.0" prefWidth="158.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0">
+                    <items>
+                      <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="165.0" prefWidth="156.0">
+                           <children>
+                              <AnchorPane fx:id="anchorPaneStartGame" layoutX="-2.0" onMouseEntered="#colorTransparentForRatedGameAnchorPaneMethod" onMouseExited="#colorGrayForRatedGameAnchorPaneMethod" prefHeight="181.0" prefWidth="160.0" style="-fx-background-color: LIGHTGRAY;">
+                                 <children>
+                                    <Button fx:id="startGameButton" alignment="CENTER" layoutX="35.0" layoutY="124.0" mnemonicParsing="false" onAction="#startGameClickActionButton" text="Start Game" textAlignment="CENTER">
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                       <effect>
+                                          <InnerShadow>
+                                             <color>
+                                                <Color red="0.5741390585899353" green="0.5726121068000793" blue="0.6184210777282715" />
+                                             </color>
+                                          </InnerShadow>
+                                       </effect>
+                                    </Button>
+                                    <ChoiceBox fx:id="choiceBox" layoutX="7.0" layoutY="57.0" maxWidth="147.0" prefHeight="26.0" prefWidth="147.0" style="-fx-text-fill: RED;">
+                                       <effect>
+                                          <InnerShadow choke="0.16" height="38.59" radius="14.3975" />
+                                       </effect>
+                                    </ChoiceBox>
+                                    <TextField fx:id="playerName" alignment="CENTER" layoutX="7.0" layoutY="89.0" prefHeight="26.0" prefWidth="147.0" promptText="Enter Name" style="-fx-prompt-text-fill: BLACK;" />
+                                    <Button fx:id="minesSweeperButton" alignment="CENTER" focusTraversable="false" layoutX="30.0" layoutY="7.0" mnemonicParsing="false" text="MinesSweeper" textAlignment="CENTER">
+                                       <effect>
+                                          <Reflection bottomOpacity="0.08" />
+                                       </effect>
+                                    </Button>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane maxHeight="276.0" minHeight="0.0" minWidth="0.0" prefHeight="276.0" prefWidth="156.0">
+                           <children>
+                              <AnchorPane fx:id="anchorPaneStartCustomGame" layoutX="-1.0" layoutY="-1.0" onMouseEntered="#colorTransparentForCustomGameAnchorPaneMethod" onMouseExited="#colorGrayForCustomGameAnchorPaneMethod" prefHeight="271.0" prefWidth="158.0" style="-fx-background-color: LIGHTGRAY;">
+                                 <children>
+                                    <TextField fx:id="textFieldSetCustomWidth" alignment="CENTER" layoutX="9.0" layoutY="14.0" prefHeight="26.0" prefWidth="141.0" promptText="Choose width (2-28)" style="-fx-prompt-text-fill: BLACK;" />
+                                    <TextField fx:id="textFieldSetCustomHeight" alignment="CENTER" layoutX="9.0" layoutY="52.0" prefHeight="26.0" prefWidth="141.0" promptText="Choose height (2-24)" style="-fx-prompt-text-fill: BLACK;" />
+                                    <TextField fx:id="textFieldSetNumberOfMines" alignment="CENTER" layoutX="9.0" layoutY="92.0" prefHeight="26.0" prefWidth="141.0" promptText="Number of Mines" style="-fx-prompt-text-fill: BLACK;">
+                                       <effect>
+                                          <DropShadow height="23.35" radius="11.315000000000001" spread="0.11" width="23.91">
+                                             <color>
+                                                <Color red="0.011086744256317616" green="0.22073180973529816" blue="0.34210526943206787" />
+                                             </color>
+                                          </DropShadow>
+                                       </effect>
+                                    </TextField>
+                                    <Button fx:id="startCustomGameButton" alignment="CENTER" contentDisplay="CENTER" layoutX="9.0" layoutY="144.0" mnemonicParsing="false" onAction="#startCustomGameClickActionButton" prefHeight="30.0" prefWidth="140.0" text="Start Custom Game" textAlignment="CENTER" textOverrun="CLIP">
+                                       <effect>
+                                          <DropShadow />
+                                       </effect>
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="exitGameButton" alignment="CENTER" layoutX="53.0" layoutY="228.0" mnemonicParsing="false" onAction="#exitGameClickActionButton" prefHeight="29.0" prefWidth="54.0" text="Exit">
+                                       <effect>
+                                          <InnerShadow>
+                                             <input>
+                                                <DropShadow spread="0.03" />
+                                             </input>
+                                          </InnerShadow>
+                                       </effect>
+                                    </Button>
+                                    <Label fx:id="MSweeperLabel" layoutX="34.0" layoutY="182.0" prefHeight="25.0" prefWidth="90.0" text="MinesSweeper" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                       <effect>
+                                          <Reflection bottomOpacity="0.56" fraction="0.63" topOffset="-4.0" topOpacity="1.0" />
+                                       </effect>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                     <effect>
+                        <DropShadow height="51.78" radius="26.4875" spread="0.14" width="56.17">
+                           <color>
+                              <Color red="0.08190647512674332" green="0.013799999840557575" blue="0.6899999976158142" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                  </SplitPane>
+               </children>
+               <BorderPane.margin>
+                  <Insets bottom="20.0" left="20.0" />
+               </BorderPane.margin>
+            </AnchorPane>
+         </left>
+         <center>
+            <AnchorPane maxHeight="500.0" prefHeight="404.0" prefWidth="446.0" BorderPane.alignment="TOP_CENTER">
+               <children>
+                  <Accordion fx:id="menuAccordion" maxHeight="359.0" prefHeight="359.0" prefWidth="446.0" AnchorPane.topAnchor="0.0">
+                    <panes>
+                      <TitledPane fx:id="titledPaneHard" alignment="CENTER" animated="false" text="Top 10 Players - Hard Difficulty" textAlignment="CENTER">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="444.0">
+                                 <children>
+                                    <TableView fx:id="tableViewHard" layoutX="16.0" layoutY="2.0" prefHeight="268.0" prefWidth="412.0" style="-fx-alignment: CENTER;">
+                                       <columns>
+                                          <TableColumn fx:id="positionNumberColumnTableHard" editable="false" maxWidth="20.0" prefWidth="20.0" style="-fx-alignment: CENTER; -fx-font-weight: BOLD; -fx-text-fill: BLACK;" />
+                                          <TableColumn fx:id="nameColumnTableHard" editable="false" maxWidth="80.0" prefWidth="75.0" style="-fx-alignment: CENTER; -fx-text-fill: RED;" />
+                                          <TableColumn fx:id="totalGamesPlayedColumnHard" maxWidth="40.0" prefWidth="40.0" style="-fx-alignment: CENTER; -fx-text-fill: BLUE;" />
+                                          <TableColumn fx:id="finishedGamesColumnHard" maxWidth="40.0" prefWidth="40.0" sortType="DESCENDING" style="-fx-alignment: CENTER; -fx-text-fill: BLACK; -fx-font-weight: BOLD;" />
+                                          <TableColumn fx:id="finishedGamesPercentageColumnHard" maxWidth="52.0" prefWidth="52.0" style="-fx-alignment: CENTER; -fx-text-fill: BLUE;" />
+                                          <TableColumn fx:id="bestTimeInSecondsColumnHard" maxWidth="40.0" prefWidth="40.0" style="-fx-alignment: CENTER; -fx-text-fill: BLUE;" />
+                                          <TableColumn fx:id="bestPercentageRevealedMapColumnHard" maxWidth="60.0" prefWidth="60.0" sortType="DESCENDING" style="-fx-alignment: CENTER; -fx-text-fill: BLUE;" />
+                                          <TableColumn fx:id="bestNumberOfMinesSweptColumnHard" maxWidth="40.0" prefWidth="40.0" sortType="DESCENDING" style="-fx-alignment: CENTER; -fx-text-fill: BLUE;" />
+                                          <TableColumn fx:id="bestNumberOfMouseClicksColumnHard" maxWidth="40.0" prefWidth="40.0" style="-fx-alignment: CENTER; -fx-text-fill: BLUE;" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                                 <effect>
+                                    <InnerShadow>
+                                       <color>
+                                          <Color red="0.9473684430122375" />
+                                       </color>
+                                    </InnerShadow>
+                                 </effect></AnchorPane>
+                        </content>
+                           <effect>
+                              <InnerShadow choke="0.14" height="62.04" radius="25.3875" width="41.51">
+                                 <input>
+                                    <DropShadow spread="0.17">
+                                       <color>
+                                          <Color red="0.7368420958518982" green="0.15692007541656494" blue="0.15692007541656494" />
+                                       </color>
+                                    </DropShadow>
+                                 </input>
+                                 <color>
+                                    <Color red="0.8289473652839661" green="0.019188595935702324" blue="0.019188595935702324" />
+                                 </color>
+                              </InnerShadow>
+                           </effect>
+                      </TitledPane>
+                      <TitledPane fx:id="titledPaneNormal" alignment="CENTER" animated="false" prefHeight="282.0" prefWidth="446.0" text="Top 10 Players - Normal Difficulty">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="444.0">
+                                 <effect>
+                                    <InnerShadow choke="0.09" height="16.61" radius="10.3675" width="26.86" />
+                                 </effect>
+                                 <children>
+                                    <TableView fx:id="tableViewNormal" layoutX="16.0" layoutY="2.0" prefHeight="268.0" prefWidth="412.0" style="-fx-alignment: CENTER;">
+                                       <columns>
+                                          <TableColumn fx:id="positionNumberColumnTableNormal" editable="false" maxWidth="20.0" prefWidth="20.0" style="-fx-alignment: CENTER; -fx-text-fill: BLACK; -fx-font-weight: BOLD;" />
+                                          <TableColumn fx:id="nameColumnTableNormal" editable="false" maxWidth="80.0" prefWidth="75.0" style="-fx-alignment: CENTER;" />
+                                          <TableColumn fx:id="totalGamesPlayedColumnNormal" maxWidth="40.0" prefWidth="40.0" style="-fx-alignment: CENTER; -fx-text-fill: BLUE;" />
+                                          <TableColumn fx:id="finishedGamesColumnNormal" maxWidth="40.0" prefWidth="40.0" sortType="DESCENDING" style="-fx-alignment: CENTER; -fx-text-fill: BLACK; -fx-font-weight: BOLD;" />
+                                          <TableColumn fx:id="finishedGamesPercentageColumnNormal" maxWidth="52.0" prefWidth="52.0" style="-fx-alignment: CENTER; -fx-text-fill: BLUE;" />
+                                          <TableColumn fx:id="bestTimeInSecondsColumnNormal" maxWidth="40.0" prefWidth="40.0" style="-fx-alignment: CENTER; -fx-text-fill: BLUE;" />
+                                          <TableColumn fx:id="bestPercentageRevealedMapColumnNormal" maxWidth="60.0" prefWidth="60.0" sortType="DESCENDING" style="-fx-alignment: CENTER; -fx-text-fill: BLUE;" />
+                                          <TableColumn fx:id="bestNumberOfMinesSweptColumnNormal" maxWidth="40.0" prefWidth="40.0" sortType="DESCENDING" style="-fx-alignment: CENTER; -fx-text-fill: BLUE;" />
+                                          <TableColumn fx:id="bestNumberOfMouseClicksColumnNormal" maxWidth="40.0" prefWidth="40.0" style="-fx-alignment: CENTER; -fx-text-fill: BLUE;" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                           <effect>
+                              <InnerShadow choke="0.08" height="50.31" radius="27.585" width="62.03" />
+                           </effect>
+                      </TitledPane>
+                      <TitledPane fx:id="titledPaneEasy" alignment="CENTER" animated="false" contentDisplay="CENTER" prefHeight="200.0" prefWidth="446.0" text="Top 10 Players - Easy Difficulty" textAlignment="CENTER">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TableView fx:id="tableViewEasy" layoutX="16.0" layoutY="2.0" prefHeight="268.0" prefWidth="412.0" style="-fx-alignment: CENTER;">
+                                      <columns>
+                                        <TableColumn fx:id="positionNumberColumnTableEasy" editable="false" maxWidth="20.0" prefWidth="20.0" style="-fx-alignment: CENTER; -fx-text-fill: BLACK; -fx-font-weight: BOLD;" />
+                                        <TableColumn fx:id="nameColumnTableEasy" editable="false" maxWidth="80.0" prefWidth="75.0" style="-fx-alignment: CENTER; -fx-text-fill: GREEN;" />
+                                         <TableColumn fx:id="totalGamesPlayedColumnEasy" maxWidth="40.0" prefWidth="40.0" style="-fx-alignment: CENTER; -fx-text-fill: BLUE;" />
+                                         <TableColumn fx:id="finishedGamesColumnEasy" maxWidth="40.0" prefWidth="40.0" sortType="DESCENDING" style="-fx-alignment: CENTER; -fx-text-fill: BLACK; -fx-font-weight: BOLD;" />
+                                         <TableColumn fx:id="finishedGamesPercentageColumnEasy" maxWidth="52.0" prefWidth="52.0" style="-fx-alignment: CENTER; -fx-text-fill: BLUE;" />
+                                         <TableColumn fx:id="bestTimeInSecondsColumnEasy" maxWidth="40.0" prefWidth="40.0" style="-fx-alignment: CENTER; -fx-text-fill: BLUE;" />
+                                         <TableColumn fx:id="bestPercentageRevealedMapColumnEasy" maxWidth="60.0" prefWidth="60.0" sortType="DESCENDING" style="-fx-alignment: CENTER; -fx-text-fill: BLUE;" />
+                                         <TableColumn fx:id="bestNumberOfMinesSweptColumnEasy" maxWidth="40.0" prefWidth="40.0" sortType="DESCENDING" style="-fx-alignment: CENTER; -fx-text-fill: BLUE;" />
+                                         <TableColumn fx:id="bestNumberOfMouseClicksColumnEasy" maxWidth="40.0" prefWidth="40.0" style="-fx-alignment: CENTER; -fx-text-fill: BLUE;" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                                 <effect>
+                                    <InnerShadow>
+                                       <color>
+                                          <Color red="0.16142787039279938" green="0.6973684430122375" blue="0.17929255962371826" />
+                                       </color>
+                                    </InnerShadow>
+                                 </effect></AnchorPane>
+                        </content>
+                           <effect>
+                              <InnerShadow choke="0.38" height="29.79" radius="15.862499999999997" width="35.66">
+                                 <color>
+                                    <Color red="0.07370857894420624" green="0.7236841917037964" blue="0.12787321209907532" />
+                                 </color>
+                              </InnerShadow>
+                           </effect>
+                      </TitledPane>
+                    </panes>
+                  </Accordion>
+                  <Label fx:id="infoTextLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="374.0" text="Text" textAlignment="JUSTIFY" textFill="#1135f5" />
+               </children>
+               <BorderPane.margin>
+                  <Insets bottom="30.0" left="32.0" right="30.0" />
+               </BorderPane.margin>
+               <effect>
+                  <DropShadow height="46.65" radius="22.275" spread="0.24" width="44.45">
+                     <color>
+                        <Color green="0.08289473503828049" blue="0.8289473652839661" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
+   <effect>
+      <InnerShadow choke="0.53" height="50.31" radius="24.655" width="50.31">
+         <color>
+            <Color red="0.14912280440330505" green="0.4709795415401459" blue="0.6710526347160339" />
+         </color>
+      </InnerShadow>
+   </effect>
+</GridPane>
