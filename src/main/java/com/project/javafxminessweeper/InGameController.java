@@ -680,7 +680,7 @@ public class InGameController implements Initializable {
 
     /* Write Player to file on End RATED Game */
     public void writePlayerToFile(){
-        Path path = MinesSweeperLaunch.topPath;
+        Path path = Main.topPath;
 
         Path fileTopEasy = Path.of(path.toString(),"bestPlayersEasy.dat");
         Path fileTopNormal = Path.of(path.toString(),"bestPlayersNormal.dat");

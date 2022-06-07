@@ -389,7 +389,7 @@ public class MenuController implements Initializable{
 
     /* Read from game directory files for Top 10 Players */
     private void readFromFileAndPopulateTopTenPlayers(){
-        Path path = MinesSweeperLaunch.topPath;
+        Path path = Main.topPath;
 
         Path fileTopEasy = Path.of(path.toString(),"bestPlayersEasy.dat");
         Path fileTopNormal = Path.of(path.toString(),"bestPlayersNormal.dat");

@@ -9,9 +9,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-/** This class is for Desktop Application executable file purpose to be able to package it */
+/** This class is for Desktop Application executable file purpose to be able to package and launch */
 
-public class MinesSweeperLaunch {
+public class Main {
 
     static Path topPath;
 
@@ -72,13 +72,11 @@ public class MinesSweeperLaunch {
         }
     }
 
-
     public static void main(String[] args) {
-        /* This property enables you to use any Scale percentage on Windows Display. Without it, you won't be able to see the square texts
-        * on higher than 100% Scale length */
+        /* This property enables you to use any Scale percentage on Windows Display. Without it, you won't be able to see the square texts on higher than 100% Scale length */
         System.setProperty("prism.allowhidpi", "false");
 
         /* Launch the game */
-        MinesSweeper.minesSweeperLaunch();
+        MinesSweeper.minesSweeper(args);
     }
 }
