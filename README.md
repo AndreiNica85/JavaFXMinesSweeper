@@ -7,7 +7,7 @@ If you want to check out the code and try it in Console in IDE you need javaFX S
 
 In "Run Configurations" set the Main class as "Main" and in "Add VM options" setting add this line:
 
---module-path "C:\<DirectoryPathOfJavaFX19SDK>\javafx-sdk-19\lib" --add-modules javafx.controls,javafx.fxml
+--module-path "C:\\<DirectoryPathOfJavaFX19SDK>\javafx-sdk-19\lib" --add-modules javafx.controls,javafx.fxml
 
 If you just want to have fun and play just install it with .msi Installer for Windows available in folder  "out/artifacts/JavaFXMinesSweeper_jar"
 
