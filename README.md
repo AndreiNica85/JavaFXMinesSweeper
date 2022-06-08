@@ -3,7 +3,11 @@ My version of MinesSweeper Game - Windows Desktop Application Version
 
 Final Version 1.0
 
-If you want to check out the code and try it in Console in IDE you need javaFX SDK 19 installed. Just add the library in your IDE and add the javafx SDK 19 modules to your project. You may use Java JDK 17 or higher.
+If you want to check out the code and try it in Console in IDE you need javaFX SDK 19 installed. Just add the libraries in your IDE and add the javafx SDK 19 modules to your project. You may use Java JDK 17 or higher.
+
+In "Run Configurations" set the Main class as "Main" and in "Add VM options" setting add this line:
+
+--module-path "C:\Program Files\Java\javafx-sdk-19\lib" --add-modules javafx.controls,javafx.fxml
 
 If you just want to have fun and play just install it with .msi Installer for Windows available in folder  "out/artifacts/JavaFXMinesSweeper_jar"
 
